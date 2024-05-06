@@ -1,0 +1,20 @@
+# Taskfile.yml
+version: '3'
+
+tasks:
+  tfi:
+    cmds:
+      - terraform -chdir=terraform/ init
+  tfp:
+    cmds:
+      - terraform -chdir=terraform/ plan
+  tfa:
+    cmds:
+      - terraform -chdir=terraform/ apply 
+      - aws eks update-kubeconfig --name inodev-coding-exercise --alias inodev-exercise
+  tfay:
+    cmds:
+      - terraform -chdir=terraform/ apply -auto-approve 
+      - aws eks update-kubeconfig --name inodev-coding-exercise --alias inodev-exercise
+
+
