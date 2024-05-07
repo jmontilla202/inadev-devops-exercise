@@ -12,9 +12,10 @@ tasks:
     cmds:
       - terraform -chdir=terraform/ apply 
       - aws eks update-kubeconfig --name inodev-coding-exercise --alias inodev-exercise
+      - kubectl create ns cicd
   tfay:
     cmds:
       - terraform -chdir=terraform/ apply -auto-approve 
       - aws eks update-kubeconfig --name inodev-coding-exercise --alias inodev-exercise
-
+      - kubectl create ns cicd
 

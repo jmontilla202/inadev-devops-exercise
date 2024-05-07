@@ -20,3 +20,14 @@ provider "aws" {
     }
   }  
 }
+
+provider "kubernetes" {
+  config_path    = "~/.kube/config"
+  config_context = "inodev-exercise"
+}
+
+provider "helm" {
+  kubernetes {
+    config_path = "~/.kube/config"
+  }
+}

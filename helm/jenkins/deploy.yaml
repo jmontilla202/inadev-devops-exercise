@@ -16,17 +16,17 @@ spec:
       securityContext:
             fsGroup: 1000
             runAsUser: 1000
-              #serviceAccountName: admin-jenkins
+            #serviceAccountName: admin-jenkins
       containers:
         - name: jenkins
           image: jenkins/jenkins:lts
           resources:
             limits:
-              memory: "2Gi"
-              cpu: "1000m"
+              memory: "4Gi"
+              cpu: "2000m"
             requests:
-              memory: "500Mi"
-              cpu: "500m"
+              memory: "2000Mi"
+              cpu: "1000m"
           ports:
             - name: httpport
               containerPort: 8080
@@ -48,10 +48,10 @@ spec:
             periodSeconds: 10
             timeoutSeconds: 5
             failureThreshold: 3
-              #volumeMounts:
-            #- name: data-jenkins
-              #mountPath: /var/jenkins_home
-                #volumes:
-                #- name: data-jenkins
-                #persistentVolumeClaim:
-                #claimName: pvc-jenkins
+          volumeMounts:
+            - name: data-jenkins
+              mountPath: /var/jenkins_home
+      volumes:
+        - name: data-jenkins
+          persistentVolumeClaim:
+            claimName: jenkins-pvc
