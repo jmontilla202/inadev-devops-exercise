@@ -4,6 +4,10 @@ terraform {
       source  = "hashicorp/aws"
       version = "~> 5.47.0"
     }
+    utils = {
+      source = "cloudposse/utils"
+      version = "1.22.0"
+    }
   }
 }
 
@@ -19,4 +23,19 @@ provider "aws" {
       env = var.env
     }
   }  
+}
+
+provider "kubernetes" {
+  config_path    = "~/.kube/config"
+  config_context = "inodev-exercise"
+}
+
+provider "helm" {
+  kubernetes {
+    config_path = "~/.kube/config"
+  }
+}
+
+provider "utils" {
+  # Configuration options
 }
