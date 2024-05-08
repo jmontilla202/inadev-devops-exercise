@@ -4,6 +4,10 @@ terraform {
       source  = "hashicorp/aws"
       version = "~> 5.47.0"
     }
+    utils = {
+      source = "cloudposse/utils"
+      version = "1.22.0"
+    }
   }
 }
 
@@ -30,4 +34,8 @@ provider "helm" {
   kubernetes {
     config_path = "~/.kube/config"
   }
+}
+
+provider "utils" {
+  # Configuration options
 }

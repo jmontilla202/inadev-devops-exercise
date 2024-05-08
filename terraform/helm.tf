@@ -12,7 +12,7 @@ resource "helm_release" "jenkins" {
   ]
 
   depends_on = [
-    kubernetes_namespace.jenkins,
+    kubernetes_namespace.jenkins
   ]
 }
 
@@ -26,4 +26,11 @@ resource "kubernetes_namespace" "jenkins" {
       description = "jenkins"
     }
   }
+
+  wait_for_default_service_account = true
+  
+  depends_on = [
+    aws_eks_addon.efs-csi-driver
+  ]
+  
 }

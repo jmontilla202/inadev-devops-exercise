@@ -1,3 +1,21 @@
+locals {
+  profile      = "inodev-exercise"
+  cluster_name = "inodev-coding-exercise"
+  kubeconfig   = "~/.kube/config"
+  # region       = var.region
+
+  # result1 = data.utils_aws_eks_update_kubeconfig.inadev.output
+}
+
+# data "utils_aws_eks_update_kubeconfig" "inadev" {
+#   profile      = local.profile
+#   cluster_name = local.cluster_name
+#   kubeconfig   = local.kubeconfig
+
+#   depends_on = [ module.eks ]
+# }
+
+
 module "eks" {
   source  = "terraform-aws-modules/eks/aws"
   version = "20.8.5"
@@ -98,3 +116,9 @@ output "oidc_provider" {
 #   cluster_identity_oidc_issuer = module.eks.oidc_provider
 #   cluster_identity_oidc_issuer_arn = module.eks.oidc_provider_arn
 # }
+
+resource "aws_eks_addon" "efs-csi-driver" {
+  cluster_name = module.eks.cluster_name
+  addon_name   = "aws-efs-csi-driver"
+  # depends_on = [ module.eks ]
+}
