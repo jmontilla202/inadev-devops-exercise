@@ -1,7 +1,7 @@
 pipeline {
     agent any
         tools {
-        go 'go-1.21.9'
+        go 'Go-1.21.9'
     }
     environment {
         GIT_SSH_COMMAND = 'ssh -o StrictHostKeyChecking=no' // Skip host key checking
