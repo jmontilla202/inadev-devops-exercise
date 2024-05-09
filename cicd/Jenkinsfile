@@ -10,7 +10,7 @@ pipeline {
     stages {
         stage('Checkout') {
             steps {
-                git branch: 'jenkins-deploy', credentialsId: 'e1c2c27b-e83d-4441-b069-9fb26dcec658', url: 'git@github.com:jmontilla202/inadev-devops-exercise.git'
+                git branch: 'main', url: 'git@github.com:jmontilla202/inadev-devops-exercise.git'
             }
         }
 
