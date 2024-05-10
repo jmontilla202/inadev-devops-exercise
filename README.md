@@ -16,7 +16,7 @@
 - go build
 
 ### Pending:
-- Jenkins configuration automation (plugins, tools and credentials)
-- Expose Jenkins and app (can access Jenkins via port forwarding)
-- Github / Jenkins webhook to build / deploy app
-- Soup to nuts script (bash, python or ansible)
+- [ ] Jenkins configuration automation (plugins, tools and credentials)
+- [ ] Expose Jenkins and app (can access Jenkins via port forwarding)
+- [ ] Github / Jenkins webhook to build / deploy app
+- [ ] Soup to nuts script (bash, python or ansible)
