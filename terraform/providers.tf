@@ -27,7 +27,7 @@ provider "aws" {
 
 provider "kubernetes" {
   config_path    = "~/.kube/config"
-  config_context = "inodev-exercise"
+  #config_context = "inodev-exercise"
 }
 
 provider "helm" {
