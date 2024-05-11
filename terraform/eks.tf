@@ -117,7 +117,7 @@ output "oidc_provider" {
 #   cluster_identity_oidc_issuer_arn = module.eks.oidc_provider_arn
 # }
 
-resource "aws_eks_addon" "efs-csi-driver" {
+resource "aws_eks_addon" "ebs-csi-driver" {
   cluster_name = module.eks.cluster_name
   addon_name   = "aws-efs-csi-driver"
   # depends_on = [ module.eks ]

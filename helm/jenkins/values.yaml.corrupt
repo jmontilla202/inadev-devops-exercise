@@ -41,7 +41,7 @@ controller:
 
 
     # -- Controller image tag override; i.e., tag: "2.440.1-jdk17"
-    tag: "latest"
+    tag: "0.4"
 
     # -- Controller image tag label
     tagLabel: jdk17
@@ -250,54 +250,54 @@ controller:
   healthProbes: true
 
   probes:
-    # startupProbe:
-    #   # -- Set the failure threshold for the startup probe
-    #   failureThreshold: 12
-    #   httpGet:
-    #     # -- Set the Pod's HTTP path for the startup probe
-    #     path: '{{ default "" .Values.controller.jenkinsUriPrefix }}/login'
-    #     # -- Set the Pod's HTTP port to use for the startup probe
-    #     port: http
-    #   # -- Set the time interval between two startup probes executions in seconds
-    #   periodSeconds: 10
-    #   # -- Set the timeout for the startup probe in seconds
-    #   timeoutSeconds: 5
+    startupProbe:
+      # -- Set the failure threshold for the startup probe
+      failureThreshold: 12
+      httpGet:
+        # -- Set the Pod's HTTP path for the startup probe
+        path: '{{ default "" .Values.controller.jenkinsUriPrefix }}/login'
+        # -- Set the Pod's HTTP port to use for the startup probe
+        port: http
+      # -- Set the time interval between two startup probes executions in seconds
+      periodSeconds: 10
+      # -- Set the timeout for the startup probe in seconds
+      timeoutSeconds: 5
 
-    # livenessProbe:
-    #   # -- Set the failure threshold for the liveness probe
-    #   failureThreshold: 5
-    #   httpGet:
-    #     # -- Set the Pod's HTTP path for the liveness probe
-    #     path: '{{ default "" .Values.controller.jenkinsUriPrefix }}/login'
-    #     # -- Set the Pod's HTTP port to use for the liveness probe
-    #     port: http
-    #   # -- Set the time interval between two liveness probes executions in seconds
-    #   periodSeconds: 10
-    #   # -- Set the timeout for the liveness probe in seconds
-    #   timeoutSeconds: 5
+    livenessProbe:
+      # -- Set the failure threshold for the liveness probe
+      failureThreshold: 5
+      httpGet:
+        # -- Set the Pod's HTTP path for the liveness probe
+        path: '{{ default "" .Values.controller.jenkinsUriPrefix }}/login'
+        # -- Set the Pod's HTTP port to use for the liveness probe
+        port: http
+      # -- Set the time interval between two liveness probes executions in seconds
+      periodSeconds: 10
+      # -- Set the timeout for the liveness probe in seconds
+      timeoutSeconds: 5
 
-    #   # If Startup Probe is not supported on your Kubernetes cluster, you might want to use "initialDelaySeconds" instead.
-    #   # It delays the initial liveness probe while Jenkins is starting
-    #   # -- Set the initial delay for the liveness probe in seconds
-    #   initialDelaySeconds:
+      # If Startup Probe is not supported on your Kubernetes cluster, you might want to use "initialDelaySeconds" instead.
+      # It delays the initial liveness probe while Jenkins is starting
+      # -- Set the initial delay for the liveness probe in seconds
+      initialDelaySeconds:
 
-    # readinessProbe:
-    #   # -- Set the failure threshold for the readiness probe
-    #   failureThreshold: 3
-    #   httpGet:
-    #     # -- Set the Pod's HTTP path for the liveness probe
-    #     path: '{{ default "" .Values.controller.jenkinsUriPrefix }}/login'
-    #     # -- Set the Pod's HTTP port to use for the readiness probe
-    #     port: http
-    #   # -- Set the time interval between two readiness probes executions in seconds
-    #   periodSeconds: 10
-    #   # -- Set the timeout for the readiness probe in seconds
-    #   timeoutSeconds: 5
+    readinessProbe:
+      # -- Set the failure threshold for the readiness probe
+      failureThreshold: 3
+      httpGet:
+        # -- Set the Pod's HTTP path for the liveness probe
+        path: '{{ default "" .Values.controller.jenkinsUriPrefix }}/login'
+        # -- Set the Pod's HTTP port to use for the readiness probe
+        port: http
+      # -- Set the time interval between two readiness probes executions in seconds
+      periodSeconds: 10
+      # -- Set the timeout for the readiness probe in seconds
+      timeoutSeconds: 5
 
-    #   # If Startup Probe is not supported on your Kubernetes cluster, you might want to use "initialDelaySeconds" instead.
-    #   # It delays the initial readiness probe while Jenkins is starting
-    #   # -- Set the initial delay for the readiness probe in seconds
-    #   initialDelaySeconds:
+      # If Startup Probe is not supported on your Kubernetes cluster, you might want to use "initialDelaySeconds" instead.
+      # It delays the initial readiness probe while Jenkins is starting
+      # -- Set the initial delay for the readiness probe in seconds
+      initialDelaySeconds:
 
   # PodDisruptionBudget config
   # podDisruptionBudget:
@@ -394,13 +394,29 @@ controller:
 
   # Plugins will be installed during Jenkins controller start
   # -- List of Jenkins plugins to install. If you don't want to install plugins, set it to `false`
-  installPlugins:
-    - kubernetes:4211.v08850dd0dfa_3
-    - workflow-aggregator:596.v8c21c963d92d
-    - git:5.2.1
-    - configuration-as-code:1775.v810dc950b_514
-    - docker-plugin:1.6
-    - golang:1.4
+  installPlugins: []
+    # - credentials:1337.v60b_d7b_c7b_c9f
+    # - script-security:1336.vf33a_a_9863911
+    # - workflow-cps:3894.vd0f0248b_a_fc4
+    # - pipeline-model-definition:2.2198.v41dd8ef6dd56
+    # - pipeline-model-extensions:2.2198.v41dd8ef6dd56
+    # - docker-commons:439.va_3cb_0a_6a_fb_29
+    # - ssh-slaves:2.948.vb_8050d697fec
+    # - docker-plugin:1.6
+    # - git-client:4.7.0
+    # - git-server:117.veb_68868fa_027
+    # - jsch:0.2.16-86.v42e010d9484b_
+    # - kubernetes-credentials:0.11
+    # - kubernetes:4211.v08850dd0dfa_3
+    # - workflow-multibranch:791.v28fb_f74dfca_es
+    # - pipeline-groovy-lib:704.vc58b_8890a_384
+    # - pipeline-input-step:495.ve9c153f6067b_
+    # - workflow-cps-global-lib:2.19
+    # - workflow-aggregator:596.v8c21c963d92d
+    # - git:5.2.1
+    # - configuration-as-code:1775.v810dc950b_514
+    # - docker-plugin:1.6
+    # - golang:1.4
 
 
   # If set to false, Jenkins will download the minimum required version of all dependencies.
@@ -509,35 +525,54 @@ controller:
     configUrls: []
     # - https://acme.org/jenkins.yaml
     # -- List of Jenkins Config as Code scripts
-    configScripts: 
-    #  welcome-message: |
-    #    jenkins:
-    #      systemMessage: Welcome to our CI\CD server. This Jenkins is configured and managed 'as code'.
+    configScripts: {}
+    # #  welcome-message: |
+    # #    jenkins:
+    # #      systemMessage: Welcome to our CI\CD server. This Jenkins is configured and managed 'as code'.
 
-    # Allows adding to the top-level security JCasC section. For legacy purposes, by default, the chart includes apiToken configurations
-    # -- Jenkins Config as Code security-section
-      job-config: |
-        jobs:
-          - script: >
-              folder('testjobs')
-          - script: >
-              pipelineJob('testjobs/default-agent') {
-                definition {
-                  cps {
-                    script("""\
-                      pipeline {
-                        agent any
-                        stages {
-                          stage ('test') {
-                            steps {
-                              echo "hello"
-                            }
-                          }
-                        }
-                      }""".stripIndent())
-                  }
-                }
-              }
+    # # Allows adding to the top-level security JCasC section. For legacy purposes, by default, the chart includes apiToken configurations
+    # # -- Jenkins Config as Code security-section
+    #   job-config: |
+    #     jobs:
+    #       - script: >
+    #           folder('testjobs')
+    #       - script: >
+    #           pipelineJob('init/jenkins-config') {
+    #             definition {
+    #               cps {
+    #                 script("""\
+    #                   pipeline {
+    #                     agent any
+    #                     stages {
+    #                       stage ('test') {
+    #                         steps {
+    #                           echo "hello"
+    #                         }
+    #                       }
+    #               stage('restore') {
+    #                 steps {
+    #                   sh '''
+    #                   echo 'Download jenkins_backup.tgz to S3 bucket'
+    #                   set +e
+    #                   aws s3 cp s3://inadev-exercise/jenkins_backup.tgz .
+    #                   echo 'extract backup file to $JENKINS_HOME directory'
+    #                   tar -xzvf jenkins_backup.tgz -C "$JENKINS_HOME"
+    #                   exitcode=$?
+    #                   if [ "$exitcode" != "1" ] && [ "$exitcode" != "0" ]; then
+    #                     exit $exitcode
+    #                   fi
+    #                   set -e
+    #                   echo 'Remove files after successful upload to S3'
+    #                   rm -rf *
+    #                   '''
+    #         }
+    #     }
+    #                     }
+
+    #                   }""".stripIndent())
+    #               }
+    #             }
+    #           }
     security:
       apiToken:
         creationOfLegacyTokenEnabled: false
@@ -564,9 +599,21 @@ controller:
   # -- Custom init-container specification in raw-yaml format
   customInitContainers: []
   # - name: custom-init
-  #   image: "alpine:3"
+  #   image: "jose9123/inadev-init-job:latest"
   #   imagePullPolicy: Always
-  #   command: [ "uname", "-a" ]
+  #   #command: [ "aws", "sts", "get-caller-identity" ]
+  #   command: ["sh", "-c"]
+  #   args:
+  #   - |
+  #     cd ~
+  #     export JENKINS_HOME=/var/jenkins_home
+  #     aws s3 cp s3://inadev-exercise/jenkins_backup.tgz .
+  #     tar -xzf jenkins_backup.tgz -C $JENKINS_HOME
+  #     rm -f jenkins_backup.tgz
+  #     ls -al && ls $JENKINS_HOME
+  #   volumeMounts:
+  #     - mountPath: "/var/jenkins_home"
+  #       name: jenkins-home
 
   sidecars:
     configAutoReload:
@@ -996,7 +1043,7 @@ agent:
   # Configure the attributes as they appear in the corresponding Java class for that type
   # https://github.com/jenkinsci/kubernetes-plugin/tree/master/src/main/java/org/csanchez/jenkins/plugins/kubernetes/volumes
   # -- Additional volumes
-  volumes: []
+  volumes: 
   # - type: ConfigMap
   #   configMapName: myconfigmap
   #   mountPath: /var/myapp/myconfigmap
@@ -1017,9 +1064,10 @@ agent:
   #   serverAddress: "192.0.2.0"
   #   serverPath: /var/lib/containers
   # - type: PVC
-  #   claimName: mypvc
-  #   mountPath: /var/myapp/mypvc
+  #   claimName: jenkins-home
+  #   mountPath: /var/jenkins_home
   #   readOnly: false
+  #   storageClassName: efs-sc
   # - type: Secret
   #   defaultMode: "600"
   #   mountPath: /var/myapp/mysecret
@@ -1207,7 +1255,7 @@ additionalClouds: {}
 
 persistence:
   # -- Enable the use of a Jenkins PVC
-  enabled: false
+  enabled: true
 
   # A manually managed Persistent Volume and Claim
   # Requires persistence.enabled: true
@@ -1221,7 +1269,7 @@ persistence:
   # If undefined (the default) or set to null, no storageClassName spec is
   #   set, choosing the default provisioner (gp2 on AWS, standard on GKE, AWS & OpenStack)
   # -- Storage class for the PVC
-  storageClass:
+  storageClass: gp2
   # -- Annotations for the PVC
   annotations: {}
   # -- Labels for the PVC
@@ -1240,15 +1288,15 @@ persistence:
   # -- SubPath for jenkins-home mount
   subPath:
   # -- Additional volumes
-  volumes: []
+  # volumes: 
   #  - name: nothing
   #    emptyDir: {}
 
   # -- Additional mounts
-  mounts: []
-  #  - mountPath: /var/nothing
-  #    name: nothing
-  #    readOnly: true
+  # mounts: 
+  #  - mountPath: /var/jenkins_home
+  #    name: jenkins_home
+  #    readOnly: false
 
 networkPolicy:
   # -- Enable the creation of NetworkPolicy resources

@@ -2,7 +2,7 @@ apiVersion: v1
 kind: Pod
 metadata:
   name: efs-example
-  namespace: cicd
+  namespace: jenkins
 spec:
   containers:
     - name: app
@@ -17,4 +17,4 @@ spec:
   volumes:
     - name: persistent-storage
       persistentVolumeClaim:
-        claimName: jenkins-pvc
+        claimName: jenkins-storage
