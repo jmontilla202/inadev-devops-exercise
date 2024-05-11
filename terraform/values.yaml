@@ -36,12 +36,12 @@ controller:
     # -- Controller image registry
     registry: "docker.io"
     # -- Controller image repository
-    repository: "jenkins/jenkins"
+    repository: "jose9123/inadev-jenkins"
     # repository: "jenkins/jenkins:lts"
 
 
     # -- Controller image tag override; i.e., tag: "2.440.1-jdk17"
-    tag: "lts"
+    tag: "latest"
 
     # -- Controller image tag label
     tagLabel: jdk17
@@ -213,7 +213,7 @@ controller:
   # For minikube, set this to NodePort, elsewhere uses LoadBalancer
   # Use ClusterIP if your setup includes ingress controller
   # -- k8s service type
-  serviceType: ClusterIP
+  serviceType: LoadBalancer
 
   # -- k8s service clusterIP. Only used if serviceType is ClusterIP
   clusterIp:
@@ -408,7 +408,7 @@ controller:
   installLatestPlugins: true
 
   # -- Set to true to download the latest version of any plugin that is requested to have the latest version
-  installLatestSpecifiedPlugins: false
+  installLatestSpecifiedPlugins: true
 
   # -- List of plugins to install in addition to those listed in controller.installPlugins
   additionalPlugins: []
