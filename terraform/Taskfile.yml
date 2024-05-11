@@ -1,0 +1,15 @@
+# Taskfile.yml
+version: '3'
+
+tasks:
+  tfa:
+    cmds:
+      - terraform apply 
+      - aws eks update-kubeconfig --name inodev-coding-exercise --alias inodev-exercise
+      - kubectl create ns cicd
+  tfay:
+    cmds:
+      - terraform apply -auto-approve 
+      - aws eks update-kubeconfig --name inodev-coding-exercise --alias inodev-exercise
+      - kubectl create ns cicd
+
