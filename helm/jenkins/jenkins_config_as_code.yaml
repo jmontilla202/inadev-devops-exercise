@@ -12,6 +12,13 @@ jenkins:
   agentProtocols:
   - "JNLP4-connect"
   - "Ping"
+  authorizationStrategy:
+    loggedInUsersCanDoAnything:
+      allowAnonymousRead: false
+  crumbIssuer:
+    standard:
+      excludeClientIPFromCrumb: false
+  disableRememberMe: false
   disabledAdministrativeMonitors:
   - "jenkins.diagnostics.ControllerExecutorsNoAgents"
   - "hudson.util.DoubleLaunchChecker"
@@ -71,6 +78,14 @@ globalCredentialsConfiguration:
   configuration:
     providerFilter: "none"
     typeFilter: "none"
+appearance:
+  pipelineGraphView:
+    showGraphOnBuildPage: false
+    showGraphOnJobPage: false
+  prism:
+    theme: PRISM
+  themeManager:
+    disableUserThemes: false
 security:
   apiToken:
     creationOfLegacyTokenEnabled: false
@@ -99,3 +114,6 @@ tool:
           installers:
           - golangInstaller:
               id: "1.21.9"
+  mavenGlobalConfig:
+    globalSettingsProvider: "standard"
+    settingsProvider: "standard"
