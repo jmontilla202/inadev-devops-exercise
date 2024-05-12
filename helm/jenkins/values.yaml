@@ -403,6 +403,8 @@ controller:
     - aws-credentials:231.v08a_59f17d742
     - thinBackup:2.0
     - pipeline-aws:1.45
+    - theme-manager:215.vc1ff18d67920
+    - pipeline-graph-view:271.v330cf007b_fe6
 
   # If set to false, Jenkins will download the minimum required version of all dependencies.
   # -- Download the minimum required version or latest version of all dependencies
