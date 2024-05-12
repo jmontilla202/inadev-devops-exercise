@@ -98,6 +98,24 @@ security:
     sshHostKeyVerificationStrategy: "knownHostsFileVerificationStrategy"
   sSHD:
     port: -1
+unclassified:
+  thinBackup:
+    backupAdditionalFiles: false
+    backupBuildArchive: false
+    backupBuildResults: true
+    backupBuildsToKeepOnly: false
+    backupConfigHistory: false
+    backupNextBuildNumber: false
+    backupPath: "/var/jenkins_home/thinBackup"
+    backupPluginArchives: false
+    backupUserContents: false
+    cleanupDiff: false
+    failFast: true
+    forceQuietModeTimeout: 120
+    fullBackupSchedule: "0 21 * * 1-5"
+    moveOldBackupsToZipFile: false
+    nrMaxStoredFull: 3
+    waitForIdle: true
 tool:
   dockerTool:
     installations:
