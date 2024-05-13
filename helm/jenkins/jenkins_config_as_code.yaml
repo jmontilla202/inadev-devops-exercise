@@ -110,51 +110,43 @@ jobs:
               scm('H/15 * * * *')
           }
           steps {
-              maven('-e clean test')
-          }
-  - script: >
-      pipelineJob('job-name') {
-        definition {
-          cps {
             script('''
-              pipeline {
-                  agent any
-                      tools {
-                      go 'Go-1.21.9'
+                  pipeline {
+                      agent any
+                          tools {
+                          go 'Go-1.21.9'
+                      }
+                      environment {
+                          GIT_SSH_COMMAND = 'ssh -o StrictHostKeyChecking=no' // Skip host key checking
+                      }
+                      stages {
+                          stage('Checkout') {
+                              steps {
+                                  git branch: 'main', url: 'https://github.com/jmontilla202/inadev-devops-exercise.git'
+                              }
+                          }
+                          stage('Build') {
+                              steps {
+                                  sh '''go version
+                                      cd "wtw/src"
+                                      go get "github.com/gin-gonic/gin"
+                                      go build'''
+                              }
+                          }
+                          stage('Test') {
+                              steps {
+                                  sh 'echo test'
+                              }
+                          }
+                          stage('Deploy') {
+                              steps {
+                                  sh 'echo deploy'
+                              }
+                          }
+                      }
                   }
-                  environment {
-                      GIT_SSH_COMMAND = 'ssh -o StrictHostKeyChecking=no' // Skip host key checking
-                  }
-                  stages {
-                      stage('Checkout') {
-                          steps {
-                              git branch: 'main', url: 'https://github.com/jmontilla202/inadev-devops-exercise.git'
-                          }
-                      }
-                      stage('Build') {
-                          steps {
-                              sh '''go version
-                                  cd "wtw/src"
-                                  go get "github.com/gin-gonic/gin"
-                                  go build'''
-                          }
-                      }
-                      stage('Test') {
-                          steps {
-                              sh 'echo test'
-                          }
-                      }
-                      stage('Deploy') {
-                          steps {
-                              sh 'echo deploy'
-                          }
-                      }
-                  }
-              }
-          ''')   
+            ''')    
           }
-        }
-      }
 
   #     job('seed_job') {
   #         label('jenkins-master')
