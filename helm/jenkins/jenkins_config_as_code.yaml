@@ -95,7 +95,6 @@ jobs:
         definition {
                 cps {
                   script("""
-
                     pipeline {
                         agent any
                         tools {go 'Go-1.21.9'}
