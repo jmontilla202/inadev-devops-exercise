@@ -37,45 +37,45 @@ jenkins:
         slaveConnectTimeout: 100
         slaveConnectTimeoutStr: "100"
         yamlMergeStrategy: "override"
-# unclassified:
-#   buildDiscarders:
-#     configuredBuildDiscarders:
-#     - "jobBuildDiscarder"
-#   fingerprints:
-#     fingerprintCleanupDisabled: false
-#     storage: "file"
-#   mailer:
-#     charset: "UTF-8"
-#     useSsl: false
-#     useTls: false
-#   pipelineStepsAWS:
-#     enableCredentialsFromNode: false
-#   pollSCM:
-#     pollingThreadCount: 10
-#   scmGit:
-#     addGitTagAction: false
-#     allowSecondFetch: false
-#     createAccountBasedOnEmail: false
-#     disableGitToolChooser: false
-#     hideCredentials: false
-#     showEntireCommitSummaryInChanges: false
-#     useExistingAccountWithSameEmail: false
-#   thinBackup:
-#     backupAdditionalFiles: false
-#     backupBuildArchive: false
-#     backupBuildResults: false
-#     backupBuildsToKeepOnly: false
-#     backupConfigHistory: false
-#     backupNextBuildNumber: false
-#     backupPath: "/var/jenkins_home/thinBackup/"
-#     backupPluginArchives: false
-#     backupUserContents: false
-#     cleanupDiff: true
-#     failFast: true
-#     forceQuietModeTimeout: 120
-#     moveOldBackupsToZipFile: false
-#     nrMaxStoredFull: 7
-#     waitForIdle: false
+unclassified:
+  buildDiscarders:
+    configuredBuildDiscarders:
+    - "jobBuildDiscarder"
+  fingerprints:
+    fingerprintCleanupDisabled: false
+    storage: "file"
+  mailer:
+    charset: "UTF-8"
+    useSsl: false
+    useTls: false
+  pipelineStepsAWS:
+    enableCredentialsFromNode: false
+  pollSCM:
+    pollingThreadCount: 10
+  scmGit:
+    addGitTagAction: false
+    allowSecondFetch: false
+    createAccountBasedOnEmail: false
+    disableGitToolChooser: false
+    hideCredentials: false
+    showEntireCommitSummaryInChanges: false
+    useExistingAccountWithSameEmail: false
+  thinBackup:
+    backupAdditionalFiles: false
+    backupBuildArchive: false
+    backupBuildResults: false
+    backupBuildsToKeepOnly: false
+    backupConfigHistory: false
+    backupNextBuildNumber: false
+    backupPath: "/var/jenkins_home/thinBackup/"
+    backupPluginArchives: false
+    backupUserContents: false
+    cleanupDiff: true
+    failFast: true
+    forceQuietModeTimeout: 120
+    moveOldBackupsToZipFile: false
+    nrMaxStoredFull: 7
+    waitForIdle: false
 tool:
   git:
     installations:
