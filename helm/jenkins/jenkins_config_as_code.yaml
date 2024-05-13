@@ -102,21 +102,20 @@ credentials:
 # This job will also be used to add/delete jobs by simply adding new job definitions to the job file in this repository.
 jobs:
   - script: >
-      job("Job1"){
-          description("First job")
-          authenticationToken('secret')
-          label('dynamic')
-          scm {
-              github('Asad/jenkins_jobDSL1', 'master')
+      pipelineJob('job-dsl-plugin') {
+        definition {
+          cpsScm {
+            scm {
+              git {
+                remote {
+                  url('https://github.com/jenkinsci/job-dsl-plugin.git')
+                }
+                branch('*/master')
+              }
+            }
+            lightweight()
           }
-          triggers {
-              gitHubPushTrigger()   
-          }
-          steps {
-              shell ('''
-          echo "test"
-      ''')
-          }
+        }
       }
 
   #     job('seed_job') {
