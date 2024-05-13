@@ -77,10 +77,10 @@ unclassified:
     nrMaxStoredFull: 7
     waitForIdle: false
 tool:
-  git:
-    installations:
-    - name: "git"
-    - home: "git"
+#   git:
+#     installations:
+#     - name: "git"
+#     - home: "git"
   go:
     installations:
     - name: "Go-1.21.9"
