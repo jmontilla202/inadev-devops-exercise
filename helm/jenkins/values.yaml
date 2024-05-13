@@ -405,6 +405,8 @@ controller:
     - pipeline-aws:1.45
     - theme-manager:215.vc1ff18d67920
     - pipeline-graph-view:271.v330cf007b_fe6
+    - kubernetes-cli:1.12.1
+    - job-dsl:1.87
 
   # If set to false, Jenkins will download the minimum required version of all dependencies.
   # -- Download the minimum required version or latest version of all dependencies
