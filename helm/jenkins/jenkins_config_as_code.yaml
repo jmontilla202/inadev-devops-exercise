@@ -80,6 +80,7 @@ tool:
   git:
     installations:
     - name: "git"
+    - home: "git"
   go:
     installations:
     - name: "Go-1.21.9"
