@@ -1,129 +1,61 @@
-credentials:
-  system:
-    domainCredentials:
-    - credentials:
-      - aws:
-          accessKey: "AKIA5KUZFEQAWFWBQEBX"
-          description: "inadev-s3"
-          id: "f7d18599-05bd-4d85-a431-111eeff354df"
-          scope: GLOBAL
-          secretKey: "{AQAAABAAAAAwMArek9//vcLSjRqEtSiXA7eQhYT1PORqpytvkLoFf30YlYqPxFH1gDRYiFyFsH4YChlUk0aK7lHsCqSKKEXpiw==}"
 jenkins:
-  agentProtocols:
-  - "JNLP4-connect"
-  - "Ping"
+  systemMessage: "Jenkins configured automatically by Jenkins Configuration as Code plugin\n\n"
+  # numExecutors: 5
+  # scmCheckoutRetryCount: 2
+  mode: NORMAL
+
+  globalNodeProperties:
+    - envVars:
+        env:
+          - key: FOO
+            value: BAR
+
   authorizationStrategy:
     loggedInUsersCanDoAnything:
       allowAnonymousRead: false
-  crumbIssuer:
-    standard:
-      excludeClientIPFromCrumb: false
-  disableRememberMe: false
-  disabledAdministrativeMonitors:
-  - "jenkins.diagnostics.ControllerExecutorsNoAgents"
-  - "hudson.util.DoubleLaunchChecker"
-  labelAtoms:
-  - name: "built-in"
-  markupFormatter: "plainText"
-  mode: NORMAL
-  myViewsTabBar: "standard"
-  nodeMonitors:
-  - "architecture"
-  - "clock"
-  - diskSpace:
-      freeSpaceThreshold: "1GiB"
-      freeSpaceWarningThreshold: "2GiB"
-  - "swapSpace"
-  - tmpSpace:
-      freeSpaceThreshold: "1GiB"
-      freeSpaceWarningThreshold: "2GiB"
-  - "responseTime"
-  numExecutors: 2
-  primaryView:
-    all:
-      name: "all"
-  projectNamingStrategy: "standard"
-  quietPeriod: 5
-  remotingSecurity:
-    enabled: true
-  scmCheckoutRetryCount: 0
-  securityRealm:
-    local:
-      allowsSignup: false
-      enableCaptcha: false
-      users:
-      - id: "ops"
-        name: "ops"
-        properties:
-        - "consoleUrlProvider"
-        - "myView"
-        - preferredProvider:
-            providerId: "default"
-        - "theme"
-        - "timezone"
-        - "experimentalFlags"
-        - mailer:
-            emailAddress: "ops@biz.io"
-        - "apiToken"
-  slaveAgentPort: 50000
-  updateCenter:
-    sites:
-    - id: "default"
-      url: "https://updates.jenkins.io/update-center.json"
-  views:
-  - all:
-      name: "all"
-  viewsTabBar: "standard"
-globalCredentialsConfiguration:
-  configuration:
-    providerFilter: "none"
-    typeFilter: "none"
-appearance:
-  pipelineGraphView:
-    showGraphOnBuildPage: false
-    showGraphOnJobPage: false
-  prism:
-    theme: PRISM
-  themeManager:
-    disableUserThemes: false
-security:
-  apiToken:
-    creationOfLegacyTokenEnabled: false
-    tokenGenerationOnCreationEnabled: false
-    usageStatisticsEnabled: true
-  gitHooks:
-    allowedOnAgents: false
-    allowedOnController: false
-  gitHostKeyVerificationConfiguration:
-    sshHostKeyVerificationStrategy: "knownHostsFileVerificationStrategy"
-  sSHD:
-    port: -1
-unclassified:
-  thinBackup:
-    backupAdditionalFiles: false
-    backupBuildArchive: false
-    backupBuildResults: true
-    backupBuildsToKeepOnly: false
-    backupConfigHistory: false
-    backupNextBuildNumber: false
-    backupPath: "/var/jenkins_home/thinBackup"
-    backupPluginArchives: false
-    backupUserContents: false
-    cleanupDiff: false
-    failFast: true
-    forceQuietModeTimeout: 120
-    fullBackupSchedule: "0 21 * * 1-5"
-    moveOldBackupsToZipFile: false
-    nrMaxStoredFull: 3
-    waitForIdle: true
+
+  clouds:
+  - kubernetes:
+      containerCap: 10
+      containerCapStr: "10"
+      jenkinsTunnel: "jenkins-agent.jenkins.svc.cluster.local:50000"
+      jenkinsUrl: "http://jenkins.jenkins.svc.cluster.local:8080"
+      name: "kubernetes"
+      namespace: "jenkins"
+      podLabels:
+      - key: "jenkins/jenkins-jenkins-agent"
+        value: "true"
+      serverUrl: "https://kubernetes.default"
+      templates:
+      - containers:
+        - args: "^${computer.jnlpmac} ^${computer.name}"
+          envVars:
+          - envVar:
+              key: "JENKINS_URL"
+              value: "http://jenkins.jenkins.svc.cluster.local:8080/"
+          image: "jenkins/inbound-agent:3206.vb_15dcf73f6a_9-3"
+          name: "jnlp"
+          resourceLimitCpu: "512m"
+          resourceLimitMemory: "512Mi"
+          resourceRequestCpu: "512m"
+          resourceRequestMemory: "512Mi"
+          workingDir: "/home/jenkins/agent"
+        id: "3299fd0af63fe1657951f62572fa2033b41c6da3e26306a1f6bbbdf095291cb2"
+        label: "jenkins-jenkins-agent"
+        name: "default"
+        namespace: "jenkins"
+        nodeUsageMode: NORMAL
+        podRetention: "never"
+        serviceAccount: "default"
+        slaveConnectTimeout: 100
+        slaveConnectTimeoutStr: "100"
+        yamlMergeStrategy: "override"
+
 tool:
-  dockerTool:
-    installations:
-    - name: "default"
   git:
     installations:
-    - home: "git"
-      name: "Default"
+      - name: git
+        home: /usr/local/bin/git
   go:
     installations:
     - name: "Go-1.21.9"
@@ -132,6 +64,41 @@ tool:
           installers:
           - golangInstaller:
               id: "1.21.9"
-  mavenGlobalConfig:
-    globalSettingsProvider: "standard"
-    settingsProvider: "standard"
+
+##  If Jenkins <2.165 then you can comment out the below section:
+##
+##  https://github.com/jenkinsci/configuration-as-code-plugin/issues/754
+##
+##security:
+##  remotingCLI:
+##    enabled: false
+
+# unclassified:
+#   artifactorybuilder:
+#     useCredentialsPlugin: true
+#     jfrogInstances:
+#       - instanceId: artifactory
+#         platformUrl: http://acme.com/artifactory
+#         artifactoryUrl: http://acme.com/artifactory
+#         distributionUrl: http://acme.com/distribution
+#         resolverCredentialsConfig:
+#           username: artifactory_user
+#           password: "${ARTIFACTORY_PASSWORD}"
+
+#   globalLibraries:
+#     libraries:
+#       - name: "awesome-lib"
+#         retriever:
+#           modernSCM:
+#             scm:
+#               git:
+#                 remote: "https://github.com/jenkins-infra/pipeline-library.git"
+
+#   location:
+#     adminAddress: you@example.com
+#     url: https://ci.example.com/
+
+  # mailer:
+  #   replyToAddress: do-not-reply@acme.org
+  #   smtpHost: smtp.acme.org
+  #   smtpPort: 4441
