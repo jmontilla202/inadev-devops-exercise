@@ -103,9 +103,6 @@ credentials:
 jobs:
   - script: >
         pipelineJob("$job_name") {
-          parameters {
-                stringParam('name', "${person_name}", 'name of the person')
-                }
           definition {
                   cps {
                     script('''
@@ -125,10 +122,12 @@ jobs:
                             }
                             stage('Build') {
                                 steps {
-                                    sh '''go version
+                                    sh '''
+                                        go version
                                         cd "wtw/src"
                                         go get "github.com/gin-gonic/gin"
-                                        go build'''
+                                        go build
+                                      '''
                                 }
                             }
                             stage('Test') {
