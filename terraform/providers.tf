@@ -13,9 +13,7 @@ terraform {
 
 provider "aws" {
   region  = "${var.region}"
-  #assume_role {
-  #  role_arn = "arn:aws:iam::*********:role/wtw-admin"
-  #}
+
   default_tags {
     tags = {
     #   component = var.component
@@ -27,7 +25,7 @@ provider "aws" {
 
 provider "kubernetes" {
   config_path    = "~/.kube/config"
-  #config_context = "inodev-exercise"
+
 }
 
 provider "helm" {
@@ -37,5 +35,5 @@ provider "helm" {
 }
 
 provider "utils" {
-  # Configuration options
+
 }
