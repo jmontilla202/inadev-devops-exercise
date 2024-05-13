@@ -41,7 +41,7 @@ jenkins:
   - name: "built-in"
   - name: "jenkins-jenkins-agent"
   - name: "master"
-  labelString: "master"
+  # labelString: "master"
 unclassified:
   buildDiscarders:
     configuredBuildDiscarders:
