@@ -41,7 +41,6 @@ jenkins:
   - name: "built-in"
   - name: "jenkins-jenkins-agent"
   - name: "master"
-  # labelString: "master"
 unclassified:
   buildDiscarders:
     configuredBuildDiscarders:
@@ -57,14 +56,6 @@ unclassified:
     enableCredentialsFromNode: false
   pollSCM:
     pollingThreadCount: 10
-  # scmGit:
-  #   addGitTagAction: false
-  #   allowSecondFetch: false
-  #   createAccountBasedOnEmail: false
-  #   disableGitToolChooser: false
-  #   hideCredentials: false
-  #   showEntireCommitSummaryInChanges: false
-  #   useExistingAccountWithSameEmail: false
   thinBackup:
     backupAdditionalFiles: false
     backupBuildArchive: false
@@ -90,21 +81,6 @@ tool:
           installers:
           - golangInstaller:
               id: "1.21.9"
-# credentials:
-#   system:
-#     domainCredentials:
-#     - credentials:
-#       - aws:
-#           accessKey: "AKIA5KUZFEQAWFWBQEBX"
-#           description: "inadev-s3"
-#           id: "f7d18599-05bd-4d85-a431-111eeff354df"
-#           scope: GLOBAL
-#           secretKey: "{AQAAABAAAAAwMArek9//vcLSjRqEtSiXA7eQhYT1PORqpytvkLoFf30YlYqPxFH1gDRYiFyFsH4YChlUk0aK7lHsCqSKKEXpiw==}"
-# JobDSL definition of the seed-job.
-# This job creates all other jobs from a Bitbucket repository.
-# With this mechanism, it is possible to have a simple job definition in your VCS and there is no need to make
-# backups of the jobs. Simply redeploy Jenkins and everything runs as before.
-# This job will also be used to add/delete jobs by simply adding new job definitions to the job file in this repository.
 jobs:
   - script: >
       pipelineJob('wapi-app') {
@@ -112,7 +88,7 @@ jobs:
           hudsonStartupTrigger {
             nodeParameterName("Built-In Node")
             label("master")
-            quietPeriod("90")
+            quietPeriod("180")
             runOnChoice("False")
           }
         }
