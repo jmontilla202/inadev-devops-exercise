@@ -305,11 +305,11 @@ agent:
   hostNetworking: false
   resources:
     requests:
-      cpu: "512m"
-      memory: "512Mi"
+      cpu: "2048m"
+      memory: "2048Mi"
     limits:
-      cpu: "512m"
-      memory: "512Mi"
+      cpu: "3072m"
+      memory: "3072Mi"
   livenessProbe: {}
   alwaysPullImage: false
   restrictedPssSecurityContext: false
