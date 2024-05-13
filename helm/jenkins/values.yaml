@@ -60,13 +60,13 @@ controller:
   disableRememberMe: false
 
   # -- Set Number of executors
-  numExecutors: 2
+  numExecutors: 7
 
   # -- Sets the executor mode of the Jenkins node. Possible values are "NORMAL" or "EXCLUSIVE"
   executorMode: "NORMAL"
 
   # -- Append Jenkins labels to the controller
-  customJenkinsLabels: []
+  customJenkinsLabels: ['master']
 
   hostNetworking: false
 
