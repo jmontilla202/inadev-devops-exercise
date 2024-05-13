@@ -1,17 +1,11 @@
 jenkins:
   systemMessage: "Jenkins configured automatically by Jenkins Configuration as Code plugin\n\n"
-  # numExecutors: 5
   scmCheckoutRetryCount: 2
-  # mode: NORMAL
   globalNodeProperties:
     - envVars:
         env:
           - key: FOO
             value: BAR
-
-  # authorizationStrategy:
-  #   loggedInUsersCanDoAnything:
-  #     allowAnonymousRead: false
   clouds:
   - kubernetes:
       containerCap: 10
@@ -48,41 +42,6 @@ jenkins:
         slaveConnectTimeout: 100
         slaveConnectTimeoutStr: "100"
         yamlMergeStrategy: "override"
-  # jobs:
-  #   - script: >
-  #       folder('testjobs')
-  #   - script: >
-  #       pipelineJob('testjobs/default-agent') {
-  #         definition {
-  #           cps {
-  #             script("""\
-  #               pipeline {
-  #                 agent any
-  #                 stages {
-  #                   stage ('test') {
-  #                     steps {
-  #                       echo "hello"
-  #                     }
-  #                   }
-  #                 }
-  #               }""".stripIndent())
-  #           }
-  #         }
-  #       }
-tool:
-  git:
-    installations:
-      - name: git
-        home: /usr/local/bin/git
-  go:
-    installations:
-    - name: "Go-1.21.9"
-      properties:
-      - installSource:
-          installers:
-          - golangInstaller:
-              id: "1.21.9"
-
 jobs:
   - script: >
       folder('testjobs')
@@ -104,3 +63,17 @@ jobs:
           }
         }
       }
+tool:
+  git:
+    installations:
+      - name: git
+        home: /usr/local/bin/git
+  go:
+    installations:
+    - name: "Go-1.21.9"
+      properties:
+      - installSource:
+          installers:
+          - golangInstaller:
+              id: "1.21.9"
+
