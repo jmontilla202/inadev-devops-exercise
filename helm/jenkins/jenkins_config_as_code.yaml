@@ -102,51 +102,64 @@ credentials:
 # This job will also be used to add/delete jobs by simply adding new job definitions to the job file in this repository.
 jobs:
   - script: >
-      job('DSL-Tutorial-1-Test') {
-          scm {
-              git('git://github.com/quidryan/aws-sdk-test.git')
+      pipelineJob('my-node-app-pipeline') {
+          displayName('My Node.js App Pipeline')
+
+          parameters {
+              stringParam('ENVIRONMENT', '', 'Environment to deploy the app')
+              stringParam('TAG', '', 'Docker tag for the app')
           }
-          triggers {
-              scm('H/15 * * * *')
-          }
-          steps {
-            script('''
-                  pipeline {
-                      agent any
-                          tools {
-                          go 'Go-1.21.9'
-                      }
-                      environment {
-                          GIT_SSH_COMMAND = 'ssh -o StrictHostKeyChecking=no' // Skip host key checking
-                      }
-                      stages {
-                          stage('Checkout') {
-                              steps {
-                                  git branch: 'main', url: 'https://github.com/jmontilla202/inadev-devops-exercise.git'
-                              }
+
+          definition {
+              cpsScm {
+                  scm {
+                      git {
+                          remote {
+                              url 'https://github.com/my-username/my-node-app.git'
+                              credentials('github-credentials')
                           }
-                          stage('Build') {
-                              steps {
-                                  sh '''go version
-                                      cd "wtw/src"
-                                      go get "github.com/gin-gonic/gin"
-                                      go build'''
-                              }
-                          }
-                          stage('Test') {
-                              steps {
-                                  sh 'echo test'
-                              }
-                          }
-                          stage('Deploy') {
-                              steps {
-                                  sh 'echo deploy'
-                              }
-                          }
+                          branch('main')
                       }
                   }
-            ''')    
+                  script("""
+                        pipeline {
+                          agent any
+                              tools {
+                              go 'Go-1.21.9'
+                          }
+                          environment {
+                              GIT_SSH_COMMAND = 'ssh -o StrictHostKeyChecking=no' // Skip host key checking
+                          }
+                          stages {
+                              stage('Checkout') {
+                                  steps {
+                                      git branch: 'main', url: 'https://github.com/jmontilla202/inadev-devops-exercise.git'
+                                  }
+                              }
+                              stage('Build') {
+                                  steps {
+                                      sh '''go version
+                                          cd "wtw/src"
+                                          go get "github.com/gin-gonic/gin"
+                                          go build'''
+                                  }
+                              }
+                              stage('Test') {
+                                  steps {
+                                      sh 'echo test'
+                                  }
+                              }
+                              stage('Deploy') {
+                                  steps {
+                                      sh 'echo deploy'
+                                  }
+                              }
+                          }
+                      }
+                        """)
+              }
           }
+      }      
 
   #     job('seed_job') {
   #         label('jenkins-master')
