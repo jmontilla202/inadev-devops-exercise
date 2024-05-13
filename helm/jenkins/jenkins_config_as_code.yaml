@@ -37,6 +37,11 @@ jenkins:
         slaveConnectTimeout: 100
         slaveConnectTimeoutStr: "100"
         yamlMergeStrategy: "override"
+  labelAtoms:
+  - name: "built-in"
+  - name: "jenkins-jenkins-agent"
+  - name: "master"
+  labelString: "master"
 unclassified:
   buildDiscarders:
     configuredBuildDiscarders:
@@ -85,16 +90,16 @@ tool:
           installers:
           - golangInstaller:
               id: "1.21.9"
-credentials:
-  system:
-    domainCredentials:
-    - credentials:
-      - aws:
-          accessKey: "AKIA5KUZFEQAWFWBQEBX"
-          description: "inadev-s3"
-          id: "f7d18599-05bd-4d85-a431-111eeff354df"
-          scope: GLOBAL
-          secretKey: "{AQAAABAAAAAwMArek9//vcLSjRqEtSiXA7eQhYT1PORqpytvkLoFf30YlYqPxFH1gDRYiFyFsH4YChlUk0aK7lHsCqSKKEXpiw==}"
+# credentials:
+#   system:
+#     domainCredentials:
+#     - credentials:
+#       - aws:
+#           accessKey: "AKIA5KUZFEQAWFWBQEBX"
+#           description: "inadev-s3"
+#           id: "f7d18599-05bd-4d85-a431-111eeff354df"
+#           scope: GLOBAL
+#           secretKey: "{AQAAABAAAAAwMArek9//vcLSjRqEtSiXA7eQhYT1PORqpytvkLoFf30YlYqPxFH1gDRYiFyFsH4YChlUk0aK7lHsCqSKKEXpiw==}"
 # JobDSL definition of the seed-job.
 # This job creates all other jobs from a Bitbucket repository.
 # With this mechanism, it is possible to have a simple job definition in your VCS and there is no need to make
@@ -103,6 +108,14 @@ credentials:
 jobs:
   - script: >
       pipelineJob('wapi-app') {
+        triggers {
+          hudsonStartupTrigger {
+            nodeParameterName("Built-In Node")
+            label("master")
+            quietPeriod("180")
+            runOnChoice("False")
+          }
+        }
         definition {
                 cps {
                   script("""
