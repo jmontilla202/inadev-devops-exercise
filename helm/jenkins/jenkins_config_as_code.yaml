@@ -1,9 +1,8 @@
 jenkins:
   systemMessage: "Jenkins configured automatically by Jenkins Configuration as Code plugin\n\n"
-  # numExecutors: 5
-  # scmCheckoutRetryCount: 2
+  numExecutors: 5
+  scmCheckoutRetryCount: 2
   mode: NORMAL
-
   globalNodeProperties:
     - envVars:
         env:
@@ -13,7 +12,6 @@ jenkins:
   authorizationStrategy:
     loggedInUsersCanDoAnything:
       allowAnonymousRead: false
-
   clouds:
   - kubernetes:
       containerCap: 10
@@ -50,7 +48,6 @@ jenkins:
         slaveConnectTimeout: 100
         slaveConnectTimeoutStr: "100"
         yamlMergeStrategy: "override"
-
 tool:
   git:
     installations:
@@ -64,41 +61,3 @@ tool:
           installers:
           - golangInstaller:
               id: "1.21.9"
-
-##  If Jenkins <2.165 then you can comment out the below section:
-##
-##  https://github.com/jenkinsci/configuration-as-code-plugin/issues/754
-##
-##security:
-##  remotingCLI:
-##    enabled: false
-
-# unclassified:
-#   artifactorybuilder:
-#     useCredentialsPlugin: true
-#     jfrogInstances:
-#       - instanceId: artifactory
-#         platformUrl: http://acme.com/artifactory
-#         artifactoryUrl: http://acme.com/artifactory
-#         distributionUrl: http://acme.com/distribution
-#         resolverCredentialsConfig:
-#           username: artifactory_user
-#           password: "${ARTIFACTORY_PASSWORD}"
-
-#   globalLibraries:
-#     libraries:
-#       - name: "awesome-lib"
-#         retriever:
-#           modernSCM:
-#             scm:
-#               git:
-#                 remote: "https://github.com/jenkins-infra/pipeline-library.git"
-
-#   location:
-#     adminAddress: you@example.com
-#     url: https://ci.example.com/
-
-  # mailer:
-  #   replyToAddress: do-not-reply@acme.org
-  #   smtpHost: smtp.acme.org
-  #   smtpPort: 4441
