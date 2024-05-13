@@ -112,7 +112,7 @@ jobs:
           hudsonStartupTrigger {
             nodeParameterName("Built-In Node")
             label("master")
-            quietPeriod("180")
+            quietPeriod("90")
             runOnChoice("False")
           }
         }
