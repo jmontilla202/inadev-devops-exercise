@@ -48,6 +48,27 @@ jenkins:
         slaveConnectTimeout: 100
         slaveConnectTimeoutStr: "100"
         yamlMergeStrategy: "override"
+  jobs:
+    - script: >
+        folder('testjobs')
+    - script: >
+        pipelineJob('testjobs/default-agent') {
+          definition {
+            cps {
+              script("""\
+                pipeline {
+                  agent any
+                  stages {
+                    stage ('test') {
+                      steps {
+                        echo "hello"
+                      }
+                    }
+                  }
+                }""".stripIndent())
+            }
+          }
+        }
 tool:
   git:
     installations:
