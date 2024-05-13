@@ -407,6 +407,7 @@ controller:
     - pipeline-graph-view:271.v330cf007b_fe6
     - kubernetes-cli:1.12.1
     - job-dsl:1.87
+    - startup-trigger-plugin:2.9.4
 
   # If set to false, Jenkins will download the minimum required version of all dependencies.
   # -- Download the minimum required version or latest version of all dependencies
