@@ -52,14 +52,14 @@ unclassified:
     enableCredentialsFromNode: false
   pollSCM:
     pollingThreadCount: 10
-  scmGit:
-    addGitTagAction: false
-    allowSecondFetch: false
-    createAccountBasedOnEmail: false
-    disableGitToolChooser: false
-    hideCredentials: false
-    showEntireCommitSummaryInChanges: false
-    useExistingAccountWithSameEmail: false
+  # scmGit:
+  #   addGitTagAction: false
+  #   allowSecondFetch: false
+  #   createAccountBasedOnEmail: false
+  #   disableGitToolChooser: false
+  #   hideCredentials: false
+  #   showEntireCommitSummaryInChanges: false
+  #   useExistingAccountWithSameEmail: false
   thinBackup:
     backupAdditionalFiles: false
     backupBuildArchive: false
@@ -102,76 +102,100 @@ credentials:
 # This job will also be used to add/delete jobs by simply adding new job definitions to the job file in this repository.
 jobs:
   - script: >
-      job('seed_job') {
-          label('jenkins-master')
-          multiscm {
-              git {
-                  remote {
-                      url('https://github.com/Ragin-LundF/jenkins-jobdsl-remote.git')
-                  }
-                  extensions {
-                    relativeTargetDirectory('jobdslscript')
-                  }
-              }
-              git {
-                  remote {
-                      url('https://github.com/Ragin-LundF/k8s-jcasc-mgmt-example.git')
-                  }
-                  extensions {
-                    relativeTargetDirectory('jobdefinition')
-                  }
-              }
-          }
-          steps {
-              dsl {
-                  lookupStrategy('SEED_JOB')
-                  external('jobdslscript/JenkinsJobDslRemote.groovy')
-              }
-          }
-          triggers {
-              scm('* * * * *')
-          }
-      }
-  - script: >
-      pipelineJob('default-agent') {
-        definition {
-          cps {
-            script("""\
-                pipeline {
-                    agent any
-                        tools {
-                        go 'Go-1.21.9'
-                    }
-                    environment {
-                        GIT_SSH_COMMAND = 'ssh -o StrictHostKeyChecking=no' // Skip host key checking
-                    }
-                    stages {
-                        stage('Checkout') {
-                            steps {
-                                git branch: 'main', url: 'https://github.com/jmontilla202/inadev-devops-exercise.git'
-                            }
-                        }
-                        stage('Build') {
-                            steps {
-                                sh '''go version
-                                    cd "wtw/src"
-                                    go get "github.com/gin-gonic/gin"
-                                    go build'''
-                            }
-                        }
-                        stage('Test') {
-                            steps {
-                                sh 'echo test'
-                            }
-                        }
-                        stage('Deploy') {
-                            steps {
-                                sh 'echo deploy'
-                            }
-                        }
-                    }
-                }
-              }""".stripIndent())
-          }
+      job("Job1"){
+        description("First job")
+        authenticationToken('secret')
+        label('dynamic')
+        scm {
+            github('Asad/jenkins_jobDSL1', 'master')
         }
-      }
+        triggers {
+            gitHubPushTrigger()   
+        }
+        steps {
+            shell ('''
+        echo "test"
+    ''')
+        }
+    }
+    buildPipelineView('project-A') {
+        title('Project A CI Pipeline')
+        displayedBuilds(5)
+        selectedJob('Job1')
+        showPipelineParameters()
+        refreshFrequency(60)
+    }
+
+  #     job('seed_job') {
+  #         label('jenkins-master')
+  #         multiscm {
+  #             git {
+  #                 remote {
+  #                     url('https://github.com/Ragin-LundF/jenkins-jobdsl-remote.git')
+  #                 }
+  #                 extensions {
+  #                   relativeTargetDirectory('jobdslscript')
+  #                 }
+  #             }
+  #             git {
+  #                 remote {
+  #                     url('https://github.com/Ragin-LundF/k8s-jcasc-mgmt-example.git')
+  #                 }
+  #                 extensions {
+  #                   relativeTargetDirectory('jobdefinition')
+  #                 }
+  #             }
+  #         }
+  #         steps {
+  #             dsl {
+  #                 lookupStrategy('SEED_JOB')
+  #                 external('jobdslscript/JenkinsJobDslRemote.groovy')
+  #             }
+  #         }
+  #         triggers {
+  #             scm('* * * * *')
+  #         }
+  #     }
+  # - script: >
+  #     pipelineJob('default-agent') {
+  #       definition {
+  #         cps {
+  #           script("""\
+  #               pipeline {
+  #                   agent any
+  #                       tools {
+  #                       go 'Go-1.21.9'
+  #                   }
+  #                   environment {
+  #                       GIT_SSH_COMMAND = 'ssh -o StrictHostKeyChecking=no' // Skip host key checking
+  #                   }
+  #                   stages {
+  #                       stage('Checkout') {
+  #                           steps {
+  #                               git branch: 'main', url: 'https://github.com/jmontilla202/inadev-devops-exercise.git'
+  #                           }
+  #                       }
+  #                       stage('Build') {
+  #                           steps {
+  #                               sh '''go version
+  #                                   cd "wtw/src"
+  #                                   go get "github.com/gin-gonic/gin"
+  #                                   go build'''
+  #                           }
+  #                       }
+  #                       stage('Test') {
+  #                           steps {
+  #                               sh 'echo test'
+  #                           }
+  #                       }
+  #                       stage('Deploy') {
+  #                           steps {
+  #                               sh 'echo deploy'
+  #                           }
+  #                       }
+  #                   }
+  #               }
+  #             }""".stripIndent())
+  #         }
+  #       }
+  #     }
