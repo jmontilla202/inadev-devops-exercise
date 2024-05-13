@@ -103,8 +103,11 @@ credentials:
 jobs:
   - script: >
        job('demo') {
-            steps {
-              shell('echo Hello World!')
+          stages {
+            stage('Checkout') {
+                steps {
+                    git branch: 'main', url: 'https://github.com/jmontilla202/inadev-devops-exercise.git'
+                }
             }
           }
   #     job('seed_job') {
