@@ -102,18 +102,27 @@ credentials:
 # This job will also be used to add/delete jobs by simply adding new job definitions to the job file in this repository.
 jobs:
   - script: >
-      pipelineJob('job-dsl-plugin') {
+      pipelineJob('job-name') {
         definition {
-          cpsScm {
-            scm {
-              git {
-                remote {
-                  url('https://github.com/jenkinsci/job-dsl-plugin.git')
+          cps {
+            script('''
+              pipeline {
+                agent any
+                stages {
+                  stage('Stage name 1') {
+                    steps {
+                      // your logic here
+                    }
+                  }
+                  stage('Stage name 2') {
+                    steps {
+                      // your logic here
+                    }
+                  }
                 }
-                branch('*/master')
               }
             }
-            lightweight()
+          ''')   
           }
         }
       }
