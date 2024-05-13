@@ -110,7 +110,6 @@ jobs:
                             stage('Build') {
                                 steps {    
                                   sh '''
-                                    go version
                                     cd "wtw/src"
                                     go get "github.com/gin-gonic/gin"
                                     go build

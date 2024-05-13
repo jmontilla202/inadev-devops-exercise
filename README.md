@@ -1,14 +1,12 @@
-### Pending:
-- [X] Expose Jenkins and app (can access Jenkins via port forwarding)
-- [ ] Jenkins configuration automation (plugins, tools and credentials)
-- [ ] Github / Jenkins webhook to build / deploy app
-- [ ] Soup to nuts script (bash, python or ansible)
+## Wapi App
 
 ### Completed:
 - Cluster deployment automated
 - Jenkins deployment to cluster automated 
 - App builds ok, functional locally
 - App builds in Jenkins using Dockerfile and from the command line
+- Expose Jenkins and app (can access Jenkins via port forwarding)
+- Jenkins configuration automation (plugins, tools and credentials)
 
 ### How to deploy cluster and Jenkins:
 - cd into terraform folder
@@ -22,3 +20,6 @@
 - go build
 
 
+### Pending
+- [ ] Github / Jenkins webhook to build / deploy app
+- [ ] Soup to nuts script (bash, python or ansible)
