@@ -9,9 +9,9 @@ jenkins:
           - key: FOO
             value: BAR
 
-  authorizationStrategy:
-    loggedInUsersCanDoAnything:
-      allowAnonymousRead: false
+  # authorizationStrategy:
+  #   loggedInUsersCanDoAnything:
+  #     allowAnonymousRead: false
   clouds:
   - kubernetes:
       containerCap: 10
