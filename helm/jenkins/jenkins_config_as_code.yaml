@@ -86,6 +86,8 @@ jobs:
       pipelineJob('wapi-app') {
         triggers {
           hudsonStartupTrigger {
+            nodeParameterName("")
+            label("")
             quietPeriod("90")
             runOnChoice("False")
           }
