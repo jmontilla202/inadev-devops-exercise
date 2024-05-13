@@ -509,8 +509,8 @@ controller:
     # -- Whether Jenkins Config as Code should overwrite any existing configuration
     overwriteConfiguration: false
     # -- Remote URLs for configuration files.
-    configUrls: []
-      #- https://raw.githubusercontent.com/jmontilla202/inadev-devops-exercise/jenkins-config-jcasc/helm/jenkins/jenkins_config_as_code.yaml
+    configUrls:
+      - https://raw.githubusercontent.com/jmontilla202/inadev-devops-exercise/jenkins-config-jcasc/helm/jenkins/jenkins_config_as_code.yaml
     # - https://acme.org/jenkins.yaml
     # -- List of Jenkins Config as Code scripts
     configScripts: {}
@@ -565,13 +565,13 @@ controller:
         # -- Tag for the image that triggers the reload
         tag: 1.26.2
       imagePullPolicy: IfNotPresent
-      resources: {}
-          limits:
-            cpu: 500m
-            memory: 500Mi
-          requests:
-            cpu: 500m
-            memory: 500Mi
+      resources: 
+        limits:
+          cpu: 500m
+          memory: 500Mi
+        requests:
+          cpu: 500m
+          memory: 500Mi
 
       # -- The scheme to use when connecting to the Jenkins configuration as code endpoint
       scheme: http
