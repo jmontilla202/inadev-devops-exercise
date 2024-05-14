@@ -1,0 +1,11 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: wapi
+  namespace: wapi
+spec:
+  containers:
+  - name: wapi
+    image: jose9123/wapi:latest
+    ports:
+    - containerPort: 8080
