@@ -137,6 +137,7 @@ controller:
     - docker-plugin:1.6.1
     - golang:1.4
     - aws-credentials:231.v08a_59f17d742
+    - thinBackup:2.0
     - pipeline-aws:1.45
     - theme-manager:215.vc1ff18d67920
     - pipeline-graph-view:271.v330cf007b_fe6
@@ -164,7 +165,7 @@ controller:
     defaultConfig: true
     overwriteConfiguration: false
     configUrls:
-      - https://github.com/jmontilla202/inadev-devops-exercise/blob/dev/terraform/jenkins_config_as_code.yaml
+      - https://raw.githubusercontent.com/jmontilla202/inadev-devops-exercise/jenkins-config-jcasc/helm/jenkins/jenkins_config_as_code.yaml
     configScripts: {}
     securityRealm: |-
       local:
@@ -345,13 +346,8 @@ persistence:
   size: "8Gi"
   dataSource: {}
   subPath:
-  volumes:
-    - name: docker-sock
-      hostPath:
-      path: /var/run/docker.sock 
-  mounts:
-    - mountPath: /var/run/docker.sock
-      name: docker-sock
+  volumes: []
+  mounts: []
 networkPolicy:
   enabled: false
   apiVersion: networking.k8s.io/v1
