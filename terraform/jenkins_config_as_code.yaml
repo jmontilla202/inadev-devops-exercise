@@ -96,35 +96,80 @@ jobs:
                 cps {
                   script("""
                     pipeline {
-                        agent any
-                        tools {go 'Go-1.21.9'}
+                        agent {
+                      kubernetes {
+                        yaml '''
+                          apiVersion: v1
+                          kind: Pod
+                          metadata:
+                            labels:
+                              app: wapi
+                              version: v0.1
+                          spec:
+                            containers:     
+                            - name: golang
+                              image: golang:1.21.9
+                              command:
+                              - cat
+                              tty: true
+                            - name: docker
+                              image: docker:latest
+                              command:
+                              - cat
+                              tty: true
+                              volumeMounts:
+                              - mountPath: /var/run/docker.sock
+                                name: docker-sock
+                            volumes:
+                            - name: docker-sock
+                              hostPath:
+                                path: /var/run/docker.sock 
+                          '''
+                        retries 2
+                      }
+                    }
+                        // tools {go 'Go-1.21.9'}
                         environment {
                             GIT_SSH_COMMAND = 'ssh -o StrictHostKeyChecking=no' // Skip host key checking
                         }
                         stages {
                             stage('Checkout') {
                                 steps {
-                                    git branch: 'main', url: 'https://github.com/jmontilla202/inadev-devops-exercise.git'
+                                    git branch: 'dev', url: 'https://github.com/jmontilla202/inadev-devops-exercise.git'
                                 }
                             }
                             stage('Build') {
-                                steps {    
+                                steps {
+                              container('golang') {
                                   sh '''
-                                    cd "wtw/src"
-                                    go get "github.com/gin-gonic/gin"
-                                    go build
+                                      cd src
+                                      go get github.com/gin-gonic/gin
+                                      go build -buildvcs=false
                                 '''
                               }
+                              }
                           }
-                           stage('Deploy') {
-                                steps {    
+                          stage('Test') {
+                              steps {
+                                container('docker') {
                                   sh '''
-                                   echo deply
+                                      ls -al src/wtw
+                                      stat src/wtw
+                                      docker build -t jose9123/wapi:latest .
+                                      docker images
+                                  '''
+                                }
+                              }
+                          }
+                          stage('Deploy') {
+                                steps {
+                                  sh '''
+                                  echo deploy
                                 '''
                               }
                           }
                         }
-                    } 
+                    }
                   """.stripIndent())
                 sandbox()
                 }
