@@ -11,7 +11,6 @@ pipelineJob('wapi-app') {
                 cps {
                   script("""
                       pipeline {
-                        agent any
                             agent {
                               kubernetes {
                                 yaml '''
@@ -45,9 +44,6 @@ pipelineJob('wapi-app') {
                             }
                           environment {
                               GIT_SSH_COMMAND = 'ssh -o StrictHostKeyChecking=no' // Skip host key checking
-                              // DOCKERHUB_CREDS = credentials('docker-hub')
-                              // USERNAME = '${env.DOCKERHUB_CREDS_USR}'
-                              // PASSWORD = '${env.DOCKERHUB_CREDS_PSW}'
                           }
                           stages {
                               stage('Checkout') {
