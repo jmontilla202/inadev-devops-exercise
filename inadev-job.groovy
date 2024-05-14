@@ -44,6 +44,8 @@ pipelineJob('wapi-app') {
                             }
                           environment {
                               GIT_SSH_COMMAND = 'ssh -o StrictHostKeyChecking=no' // Skip host key checking
+                              USERNAME = "${env.DOCKERHUB_CREDS_USR}"
+                              PASSWORD = "${env.DOCKERHUB_CREDS_PSW}"
                           }
                           stages {
                               stage('Checkout') {
@@ -62,11 +64,7 @@ pipelineJob('wapi-app') {
                                   }
                                   container('docker') {
                                     sh '''
-                                          whoami && id
-                                          #nohup docker daemon -H tcp://0.0.0.0:2375 -H unix:///var/run/docker.sock --iptables=false
-                                          dockerd --iptables=false --tls=false --bridge=none \
-                                          -H tcp://0.0.0.0:2375 -H unix:///var/run/docker.sock --data-root /var/lib/docker &
-                                      
+                                        dockerd --iptables=false --tls=false --bridge=none -H tcp://0.0.0.0:2375 -H unix:///var/run/docker.sock --data-root /var/lib/docker &
                                         sleep 10
                                         docker build -t jose9123/wapi:latest .
                                         docker images
