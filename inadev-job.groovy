@@ -12,44 +12,6 @@ pipelineJob('wapi-app') {
                   script("""
                       pipeline {
                         agent any
-                          //   agent {
-                          //     kubernetes {
-                            // yamlFile 'k8s-agent-config.yaml'
-                          //       yaml '''
-                          //       apiVersion: v1
-                          //       kind: Pod
-                          //       metadata:
-                          //         labels:
-                          //           app: wapi
-                          //           version: v0.1
-                          //       spec:
-                          //         containers:     
-                          //         - name: golang
-                          //           image: golang:1.21.9
-                          //           command:
-                          //           - cat
-                          //           tty: true
-                          //         - name: docker
-                          //           image: docker:latest
-                          //           command:
-                          //           - cat
-                          //           tty: true
-                          //           securityContext:
-                          //             allowPrivilegeEscalation: true
-                          //             runAsUser: 0
-                          //             runAsGroup: 0
-                          //             readOnlyRootFilesystem: false
-                          //             privileged: true
-                          //           '''
-                          //       retries 2
-                          //     }
-                          //   }
-                          // environment {
-                          //     GIT_SSH_COMMAND = 'ssh -o StrictHostKeyChecking=no' // Skip host key checking
-                          //     DOCKERHUB_CREDS = credentials('docker-hub')
-                          //     USERNAME = "${env.DOCKERHUB_CREDS_USR}"
-                          //     PASSWORD = "${env.DOCKERHUB_CREDS_PSW}"
-                          // }
                           stages {
                               stage('Checkout') {
                                   steps {
