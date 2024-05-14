@@ -117,9 +117,13 @@ jobs:
                               command:
                               - cat
                               tty: true
-                              securityContext:
-                                privileged: true
-                                runAsUser: 0
+                              volumeMounts:
+                              - mountPath: /var/run/docker.sock
+                                name: docker-sock
+                            volumes:
+                            - name: docker-sock
+                              hostPath:
+                                path: /var/run/docker.sock 
                           '''
                         retries 2
                       }

@@ -56,15 +56,15 @@ controller:
   jenkinsUrl:
   jenkinsUriPrefix:
   usePodSecurityContext: true
-  runAsUser: 0
-  fsGroup: 0
+  runAsUser: 1000
+  fsGroup: 1000
   securityContextCapabilities: {}
   podSecurityContextOverride: ~
   containerSecurityContext:
-    runAsUser: 0
-    runAsGroup: 0
-    readOnlyRootFilesystem: false
-    allowPrivilegeEscalation: true
+    runAsUser: 1000
+    runAsGroup: 1000
+    readOnlyRootFilesystem: true
+    allowPrivilegeEscalation: false
   serviceType: LoadBalancer
   clusterIp:
   servicePort: 8080
@@ -165,7 +165,6 @@ controller:
     defaultConfig: true
     overwriteConfiguration: false
     configUrls:
-      #- https://raw.githubusercontent.com/jmontilla202/inadev-devops-exercise/jenkins-config-jcasc/helm/jenkins/jenkins_config_as_code.yaml
       - https://github.com/jmontilla202/inadev-devops-exercise/blob/dev/terraform/jenkins_config_as_code.yaml
     configScripts: {}
     securityRealm: |-
@@ -204,8 +203,8 @@ controller:
       sshTcpPort: 1044
       folder: "/var/jenkins_home/casc_configs"#
       containerSecurityContext:
-        readOnlyRootFilesystem: false
-        allowPrivilegeEscalation: true
+        readOnlyRootFilesystem: true
+        allowPrivilegeEscalation: false
     additionalSidecarContainers: []
   schedulerName: ""
   nodeSelector: {}
@@ -300,7 +299,7 @@ agent:
   componentName: "jenkins-agent"
   websocket: false
   directConnection: false
-  privileged: true
+  privileged: false
   runAsUser:
   runAsGroup:
   hostNetworking: false
