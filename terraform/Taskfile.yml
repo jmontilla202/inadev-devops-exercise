@@ -1,0 +1,30 @@
+# Taskfile.yml
+version: '3'
+
+tasks:
+  tfa:
+    desc: terraform apply
+    cmds:
+      - terraform apply 
+  tfay:
+    desc: terraform apply -auto-approve
+    cmds:
+      - terraform apply -auto-approve
+  ukc:
+    desc: update kubeconfig
+    cmds:
+      - aws eks update-kubeconfig --name inodev-coding-exercise --alias inodev-exercise
+  cns:
+    desc: create namespaces
+    cmds:
+      - kubectl create ns jenkins
+      - kubectl create ns wtwapp
+  hijc:
+    dec: helm install jenkins chart
+    cmds:
+      - helm install -n jenkins jenkins jenkins/jenkins -f ../helm/jenkins/values.yaml
+      - sleep 3
+      - kubectl exec --namespace jenkins -it svc/jenkins -c jenkins -- /bin/cat /run/secrets/additional/chart-admin-password && echo
+      - kubectl get service -n jenkins -o wide
+
+

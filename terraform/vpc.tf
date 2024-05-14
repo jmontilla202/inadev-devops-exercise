@@ -25,8 +25,6 @@ module "vpc" {
   public_subnets = [for k, v in local.azs : cidrsubnet(local.vpc_cidr_public , 4, k)]
 
   enable_nat_gateway     = true
-#   single_nat_gateway     = true
-#   one_nat_gateway_per_az = false
 
   enable_dns_hostnames = true
   enable_dns_support   = true
@@ -34,16 +32,4 @@ module "vpc" {
   tags = {
     env = var.env
   }
-}
-
-output "vpc_id" {
-  value = module.vpc.vpc_id
-}
-
-output "private_subnet_id1" {
-  value = module.vpc.private_subnets[0]
-}
-
-output "private_subnet_id2" {
-  value = module.vpc.private_subnets[1]
 }
