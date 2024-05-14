@@ -68,7 +68,7 @@ resource "null_resource" "kubectl_config" {
 }
 resource "null_resource" "create_jenkins_namespace" {
   provisioner "local-exec" {
-    command = "kubectl create ns jenkins"
+    command = "kubectl create ns jenkins && kubectl create ns wapi"
   }
   depends_on = [ module.eks.aws_eks_cluster, null_resource.kubectl_config, time_sleep.sleep5s ]
 }
