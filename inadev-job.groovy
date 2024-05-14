@@ -38,15 +38,16 @@ pipelineJob('wapi-app') {
                                         runAsGroup: 0
                                         readOnlyRootFilesystem: false
                                         privileged: true
-                                  '''
-                          retries 2
-                        }
+                                        '''
+                                retries 2
+                              }
                             }
                           environment {
                               GIT_SSH_COMMAND = 'ssh -o StrictHostKeyChecking=no' // Skip host key checking
-                              DOCKERHUB_CREDS = = credentials('docker-hub')
-                              USERNAME = '${env.DOCKERHUB_CREDS_USR}'
-                              PASSWORD = '${env.DOCKERHUB_CREDS_PSW}'
+                              DOCKERHUB_CREDS = credentials('docker-hub')
+                              USERNAME = "${env.DOCKERHUB_CREDS_USR}"
+                              PASSWORD = "${env.DOCKERHUB_CREDS_PSW}"
+  
                           }
                           stages {
                               stage('Checkout') {
@@ -65,10 +66,10 @@ pipelineJob('wapi-app') {
                                   }
                                   container('docker') {
                                     sh '''
-                                        dockerd --iptables=false --tls=false --bridge=none -H tcp://0.0.0.0:2375 -H unix:///var/run/docker.sock --data-root /var/lib/docker &
+                                      #  dockerd --iptables=false --tls=false --bridge=none -H tcp://0.0.0.0:2375 -H unix:///var/run/docker.sock --data-root /var/lib/docker &
                                         sleep 10
-                                        docker build -t jose9123/wapi:latest .
-                                        docker images
+                                      #  docker build -t jose9123/wapi:latest .
+                                      #  docker images
                                     '''
                                   }
                                 }
@@ -82,8 +83,6 @@ pipelineJob('wapi-app') {
                             }
                           }
                       }
-
-
                   """.stripIndent())
                 sandbox()
                 }
