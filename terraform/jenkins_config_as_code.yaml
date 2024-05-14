@@ -1,3 +1,14 @@
+
+credentials:
+  system:
+    domainCredentials:
+    - credentials:
+      - usernamePassword:
+          description: "Docker Hub"
+          id: "docker-hub"
+          password: "{AQAAABAAAAAwvpXOeMVDMIel2sI4OLlU8YJ4HAtEj781oUJ10sdjzcVMN4brx0PGKEqfxC7RxtchKHTctjhWcx9CvGK+wCzgGg==}"
+          scope: GLOBAL
+          username: "jose9123"
 jenkins:
   systemMessage: "Jenkins configured automatically by Jenkins Configuration as Code plugin\n\n"
   scmCheckoutRetryCount: 2
