@@ -44,8 +44,8 @@ pipelineJob('wapi-app') {
                             }
                           environment {
                               GIT_SSH_COMMAND = 'ssh -o StrictHostKeyChecking=no' // Skip host key checking
-                              USERNAME = "${env.DOCKERHUB_CREDS_USR}"
-                              PASSWORD = "${env.DOCKERHUB_CREDS_PSW}"
+                              USERNAME = '${env.DOCKERHUB_CREDS_USR}'
+                              PASSWORD = '${env.DOCKERHUB_CREDS_PSW}'
                           }
                           stages {
                               stage('Checkout') {
