@@ -14,8 +14,7 @@ pipelineJob('wapi-app') {
                         agent any
                             agent {
                               kubernetes {
-                                yaml: 
-                                '''
+                                yaml '''
                                 apiVersion: v1
                                 kind: Pod
                                 metadata:
@@ -25,22 +24,22 @@ pipelineJob('wapi-app') {
                                 spec:
                                   containers:     
                                   - name: golang
-                                  image: golang:1.21.9
-                                  command:
-                                  - cat
-                                  tty: true
+                                    image: golang:1.21.9
+                                    command:
+                                    - cat
+                                    tty: true
                                   - name: docker
-                                  image: docker:latest
-                                  command:
-                                  - cat
-                                  tty: true
-                                  securityContext:
-                                    allowPrivilegeEscalation: true
-                                    runAsUser: 0
-                                    runAsGroup: 0
-                                    readOnlyRootFilesystem: false
-                                    privileged: true
-                                  '''
+                                    image: docker:latest
+                                    command:
+                                    - cat
+                                    tty: true
+                                    securityContext:
+                                      allowPrivilegeEscalation: true
+                                      runAsUser: 0
+                                      runAsGroup: 0
+                                      readOnlyRootFilesystem: false
+                                      privileged: true
+                                    '''
                                 retries 2
                               }
                             }
