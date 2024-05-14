@@ -2,8 +2,8 @@ FROM golang:1.21
 
 WORKDIR /app
 
-COPY /src/wtw ./
+COPY /src/* ./
 
 EXPOSE 8080
 
-CMD ["/wtw"]
+CMD ["/wapi"]
