@@ -1,4 +1,4 @@
-pipelineJob('wapi-app') {
+  pipelineJob('wapi-app') {
         triggers {
             hudsonStartupTrigger {
               nodeParameterName("Built-In Node")
@@ -9,8 +9,7 @@ pipelineJob('wapi-app') {
         }
         definition {
                 cps {
-                  script("""   
-                  
+                  script("""            
     pipeline {
           agent {
             kubernetes {
@@ -84,11 +83,7 @@ pipelineJob('wapi-app') {
               }
           }
         }
-    }
-
-
-
-                   """.stripIndent())
+    }              """.stripIndent())
                  sandbox()
                  }
            }
