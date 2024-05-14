@@ -63,8 +63,8 @@ controller:
   containerSecurityContext:
     runAsUser: 1000
     runAsGroup: 1000
-    readOnlyRootFilesystem: true
-    allowPrivilegeEscalation: false
+    readOnlyRootFilesystem: false
+    allowPrivilegeEscalation: true
   serviceType: LoadBalancer
   clusterIp:
   servicePort: 8080
@@ -204,8 +204,8 @@ controller:
       sshTcpPort: 1044
       folder: "/var/jenkins_home/casc_configs"#
       containerSecurityContext:
-        readOnlyRootFilesystem: true
-        allowPrivilegeEscalation: false
+        readOnlyRootFilesystem: false
+        allowPrivilegeEscalation: true
     additionalSidecarContainers: []
   schedulerName: ""
   nodeSelector: {}
@@ -300,7 +300,7 @@ agent:
   componentName: "jenkins-agent"
   websocket: false
   directConnection: false
-  privileged: false
+  privileged: true
   runAsUser:
   runAsGroup:
   hostNetworking: false
