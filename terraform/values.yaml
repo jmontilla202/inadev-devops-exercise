@@ -56,13 +56,13 @@ controller:
   jenkinsUrl:
   jenkinsUriPrefix:
   usePodSecurityContext: true
-  runAsUser: 1000
-  fsGroup: 1000
+  runAsUser: 0
+  fsGroup: 0
   securityContextCapabilities: {}
   podSecurityContextOverride: ~
   containerSecurityContext:
-    runAsUser: 1000
-    runAsGroup: 1000
+    runAsUser: 0
+    runAsGroup: 0
     readOnlyRootFilesystem: false
     allowPrivilegeEscalation: true
   serviceType: LoadBalancer
