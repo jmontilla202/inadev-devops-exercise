@@ -44,9 +44,6 @@
                           }
                       environment {
                           GIT_SSH_COMMAND = 'ssh -o StrictHostKeyChecking=no' // Skip host key checking
-                          DOCKERHUB_CREDS = credentials('docker-hub')
-                          USERNAME = "${env.DOCKERHUB_CREDS_USR}"
-                          PASSWORD = "${env.DOCKERHUB_CREDS_PSW}"
                       }
                       stages {
                          stage('Checkout') {
@@ -56,14 +53,26 @@
                           }
                           stage('Build') {
                               steps {
-                                container('golang') {
-                                  sh '''
-                                    cd src
-                                    go get "github.com/gin-gonic/gin"
-                                    go build -buildvcs=false -o wapi
-                                  '''
-                                }
+                                  echo 'hello'
                               }
+                          }
+                          stage('Build') {
+                            steps {
+                              container('golang') {
+                                sh '''
+                                  cd src
+                                  go get "github.com/gin-gonic/gin"
+                                  go build -buildvcs=false -o wapi
+                                '''
+                              }
+                              container('golang') {
+                                sh '''
+                                  cd src
+                                  go get "github.com/gin-gonic/gin"
+                                  go build -buildvcs=false -o wapi
+                                '''
+                              }
+                            }
                           }
                           stage('Deploy') {
                               steps {
