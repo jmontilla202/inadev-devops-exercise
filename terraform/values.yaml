@@ -11,8 +11,8 @@ controller:
     registry: "docker.io"
     repository: "jenkins/jenkins"
     # tag: 2.457-jdk17
-    tag: 2.458
-    tagLabel: jdk17
+    tag: latest-jdk11
+    tagLabel: jdk11
     pullPolicy: "Always"
   imagePullSecretName:
   lifecycle: {}
@@ -143,7 +143,7 @@ controller:
     - theme-manager:215.vc1ff18d67920
     - pipeline-graph-view:271.v330cf007b_fe6
     - kubernetes-cli:1.12.1
-    - job-dsl:1.87
+    - job-dsl:1.86
     # - startup-trigger-plugin:2.9.4
   installLatestPlugins: true
   installLatestSpecifiedPlugins: false

@@ -1,12 +1,4 @@
   pipelineJob('wapi-app') {
-        triggers {
-            hudsonStartupTrigger {
-              nodeParameterName("Built-In Node")
-              label("master")
-              quietPeriod("60")
-              runOnChoice("False")
-            }
-        }
         definition {
           cps {
               script("""
