@@ -58,12 +58,16 @@
                           }
                           stage('Build') {
                             steps {
-                              container('golang') {
-                                sh '''
-                                  cd src
-                                  go get "github.com/gin-gonic/gin"
-                                  go build -buildvcs=false -o wapi
-                                '''
+                                container('docker') {
+                                  sh '''
+                                      dockerd --iptables=false --tls=false --bridge=none -H tcp://0.0.0.0:2375 -H unix:///var/run/docker.sock --data-root /var/lib/docker &
+                                      #docker login -u $USERNAME -p $PASSWORD
+                                      sleep 5
+                                      docker build -t jose9123/wapi:latest .
+                                      docker push jose9123/wapi:latest
+                                      docker images
+                                  '''
+                                }
                               }
                             }
                           }
