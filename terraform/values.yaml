@@ -164,7 +164,7 @@ controller:
   JCasC:
     defaultConfig: true
     overwriteConfiguration: false
-    configUrls: []
+    configUrls:
     configScripts:
       - script: >
           pipelineJob('job-dsl-plugin') {
