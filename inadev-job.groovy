@@ -64,12 +64,7 @@
                                   '''
                                 }
                               }
-                          }
-                          stage('Test') {
-                            steps {                             
-                                echo 'hello'
-                            }
-                          }
+                          }s
                           stage('Deploy') {
                               steps {
                                 sh '''
