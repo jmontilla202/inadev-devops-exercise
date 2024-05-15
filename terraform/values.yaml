@@ -161,7 +161,8 @@ controller:
     # -- Whether Jenkins Config as Code should overwrite any existing configuration
     overwriteConfiguration: false
     # -- Remote URLs for configuration files.
-    configUrls: []
+    configUrls:
+      - https://raw.githubusercontent.com/jmontilla202/inadev-devops-exercise/dev/terraform/jenkins-jcasc.yaml
     # - https://acme.org/jenkins.yaml
     # -- List of Jenkins Config as Code scripts
     configScripts: 

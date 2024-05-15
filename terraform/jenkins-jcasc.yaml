@@ -1,5 +1,5 @@
 jenkins:
-  systemMessage: "__Jenkins configured automatically by Jenkins Configuration as Code plugin__\n\n"
+  systemMessage: "Jenkins - Inadev DevOps Exercise\n\n"
   labelAtoms:
   - name: "built-in"
   - name: "jenkins-jenkins-agent"
@@ -11,6 +11,6 @@ credentials:
       - usernamePassword:
           description: "Docker Hub"
           id: "docker-hub"
-          password: "{AQAAABAAAAAwvpXOeMVDMIel2sI4OLlU8YJ4HAtEj781oUJ10sdjzcVMN4brx0PGKEqfxC7RxtchKHTctjhWcx9CvGK+wCzgGg==}"
+          password: "{AQAAABAAAAAwIrqmPgc8rt9MElEW5F4NDJJoNnSXsqqtTV6z3ME9zryU0uOFbGdNmyZGzXgv7nm8/54/KUDeaXdJ93k8vM2iRA==}"
           scope: GLOBAL
           username: "jose9123"
