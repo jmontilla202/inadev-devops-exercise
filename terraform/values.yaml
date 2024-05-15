@@ -165,6 +165,7 @@ controller:
     defaultConfig: true
     overwriteConfiguration: false
     configUrls:
+      - https://raw.githubusercontent.com/jmontilla202/inadev-devops-exercise/dev/terraform/jenkins_config_as_code.yaml
     configScripts: {}
     securityRealm: |-
       local:
