@@ -164,9 +164,25 @@ controller:
   JCasC:
     defaultConfig: true
     overwriteConfiguration: false
-    configUrls:
-      - https://raw.githubusercontent.com/jmontilla202/inadev-devops-exercise/dev/terraform/jenkins_config_as_code.yaml
-    configScripts: {}
+    configUrls: []
+    configScripts:
+      - script: >
+          pipelineJob('job-dsl-plugin') {
+            definition {
+              cpsScm {
+                scm {
+                  git {
+                    remote {
+                      url('https://github.com/jenkinsci/job-dsl-plugin.git')
+                    }
+                    branch('*/master')
+                  }
+                }
+                lightweight()
+              }
+            }
+          }
+
     securityRealm: |-
       local:
         allowsSignup: false
