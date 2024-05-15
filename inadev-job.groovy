@@ -24,12 +24,7 @@
                             command:
                             - cat
                             tty: true
-                            securityContext:
-                              allowPrivilegeEscalation: true
-                              runAsUser: 0
-                              runAsGroup: 0
-                              readOnlyRootFilesystem: false
-                              privileged: true
+ 
                         '''
                       retries 2
                       }
