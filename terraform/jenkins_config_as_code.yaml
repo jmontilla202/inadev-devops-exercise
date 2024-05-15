@@ -30,22 +30,6 @@ unclassified:
     enableCredentialsFromNode: false
   pollSCM:
     pollingThreadCount: 10
-  thinBackup:
-    backupAdditionalFiles: false
-    backupBuildArchive: false
-    backupBuildResults: false
-    backupBuildsToKeepOnly: false
-    backupConfigHistory: false
-    backupNextBuildNumber: false
-    backupPath: "/var/jenkins_home/thinBackup/"
-    backupPluginArchives: false
-    backupUserContents: false
-    cleanupDiff: true
-    failFast: true
-    forceQuietModeTimeout: 120
-    moveOldBackupsToZipFile: false
-    nrMaxStoredFull: 7
-    waitForIdle: false
 tool:
   go:
     installations:
