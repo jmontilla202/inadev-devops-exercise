@@ -10,14 +10,13 @@ controller:
   image:
     registry: "docker.io"
     repository: "jenkins/jenkins"
-    # tag: 2.457-jdk17
-    tag: latest
+    tag: 2.458-jdk17
     tagLabel: jdk17
     pullPolicy: "Always"
   imagePullSecretName:
   lifecycle: {}
   disableRememberMe: false
-  numExecutors: 7
+  numExecutors: 0
   executorMode: "NORMAL"
   customJenkinsLabels: ['master']
   hostNetworking: false
@@ -28,7 +27,7 @@ controller:
     passwordKey: jenkins-admin-password
     createSecret: true
     existingSecret: ""
-  jenkinsAdminEmail:
+  jenkinsAdminEmail: opsadmin@buildrus.io
   jenkinsHome: "/var/jenkins_home"
   jenkinsRef: "/usr/share/jenkins/ref"
   jenkinsWar: "/usr/share/jenkins/jenkins.war"
@@ -43,10 +42,10 @@ controller:
   initContainerResources:
     requests:
       cpu: "1000m"
-      memory: "2048Mi"
+      memory: "1024Mi"
     limits:
       cpu: "2000m"
-      memory: "4096Mi"
+      memory: "1024Mi"
   initContainerEnvFrom: []
   initContainerEnv: []
   containerEnvFrom: []
@@ -130,20 +129,13 @@ controller:
   loadBalancerIP:
   jmxPort:
   extraPorts: []
-  installPlugins: 
-    - kubernetes:4214.vf10083a_42e70
-    - workflow-aggregator:596.v8c21c963d92d
+  installPlugins:
+    - kubernetes:4219.v40ff98cfb_d6f
+    - kubernetes-cli:1.12.1
     - git:5.2.2
     - configuration-as-code:1775.v810dc950b_514
-    - docker-plugin:1.6.1
-    - golang:1.4
-    - aws-credentials:231.v08a_59f17d742
-    - pipeline-aws:1.45
-    - theme-manager:215.vc1ff18d67920
-    - pipeline-graph-view:271.v330cf007b_fe6
-    - kubernetes-cli:1.12.1
-    - job-dsl:1.87
     - startup-trigger-plugin:2.9.4
+    - workflow-aggregator:596.v8c21c963d92d
   installLatestPlugins: true
   installLatestSpecifiedPlugins: false
   additionalPlugins: []
@@ -162,11 +154,32 @@ controller:
   secretClaims: []
   cloudName: "kubernetes"
   JCasC:
+    # -- Enables default Jenkins configuration via configuration as code plugin
     defaultConfig: true
+
+    # If true, the init container deletes all the plugin config files and Jenkins Config as Code overwrites any existing configuration
+    # -- Whether Jenkins Config as Code should overwrite any existing configuration
     overwriteConfiguration: false
-    configUrls:
-      - https://raw.githubusercontent.com/jmontilla202/inadev-devops-exercise/dev/terraform/jenkins_config_as_code.yaml
-    configScripts: {}
+    # -- Remote URLs for configuration files.
+    configUrls: []
+    # - https://acme.org/jenkins.yaml
+    # -- List of Jenkins Config as Code scripts
+    configScripts: 
+    #  welcome-message: |
+    #    jenkins:
+    #      systemMessage: Welcome to our CI\CD server. This Jenkins is configured and managed 'as code'.
+
+    # Allows adding to the top-level security JCasC section. For legacy purposes, by default, the chart includes apiToken configurations
+
+
+    security:
+      apiToken:
+        creationOfLegacyTokenEnabled: false
+        tokenGenerationOnCreationEnabled: false
+        usageStatisticsEnabled: true
+
+    # Ignored if securityRealm is defined in controller.JCasC.configScripts
+    # -- Jenkins Config as Code Security Realm-section
     securityRealm: |-
       local:
         allowsSignup: false
@@ -175,10 +188,34 @@ controller:
         - id: "${chart-admin-username}"
           name: "Jenkins Admin"
           password: "${chart-admin-password}"
+
+    # Ignored if authorizationStrategy is defined in controller.JCasC.configScripts
+    # -- Jenkins Config as Code Authorization Strategy-section
     authorizationStrategy: |-
       loggedInUsersCanDoAnything:
         allowAnonymousRead: false
+    jenkins:
+      disabledAdministrativeMonitors:
+      - "hudson.model.UpdateCenter$CoreUpdateMonitor"
+      - "hudson.util.DoubleLaunchChecker"
+    credentials:
+      system:
+        domainCredentials:
+        - credentials:
+          - usernamePassword:
+              description: "Docker Hub"
+              id: "docker-hub"
+              password: "{AQAAABAAAAAwV76SLoU2LpH1jZjXgO7Ws5y4TJavnj2wAeyWMzm6PbQM/h63fxt1SYKNdItYOXV4LTf31JKQhFomthCqKeo4Jw==}"
+              scope: SYSTEM
+              username: "jose9123"
+
+  # -- Custom init-container specification in raw-yaml format
   customInitContainers: []
+  # - name: custom-init
+  #   image: "alpine:3"
+  #   imagePullPolicy: Always
+  #   command: [ "uname", "-a" ]
+
   sidecars:
     configAutoReload:
       enabled: true
@@ -305,11 +342,11 @@ agent:
   hostNetworking: false
   resources:
     requests:
+      cpu: "1024m"
+      memory: "1024Mi"
+    limits:
       cpu: "2048m"
       memory: "2048Mi"
-    limits:
-      cpu: "3072m"
-      memory: "3072Mi"
   livenessProbe: {}
   alwaysPullImage: false
   restrictedPssSecurityContext: false
