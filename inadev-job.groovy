@@ -56,6 +56,17 @@
                                   echo 'hello'
                               }
                           }
+                          stage('Build') {
+                            steps {
+                              container('golang') {
+                                sh '''
+                                  cd src
+                                  go get "github.com/gin-gonic/gin"
+                                  go build -buildvcs=false -o wapi
+                                '''
+                              }
+                            }
+                          }
                           stage('Deploy') {
                               steps {
                                 sh '''
