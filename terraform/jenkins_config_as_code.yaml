@@ -29,8 +29,8 @@ tool:
           installers:
           - golangInstaller:
               id: "1.21.9"
-# jobs:
-#   - url: https://raw.githubusercontent.com/jmontilla202/inadev-devops-exercise/dev/inadev-job.groovy
+jobs:
+  - url: https://raw.githubusercontent.com/jmontilla202/inadev-devops-exercise/dev/inadev-job.groovy
 credentials:
   system:
     domainCredentials:
