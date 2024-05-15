@@ -56,7 +56,7 @@
                                   echo 'hello'
                               }
                           }
-                          stage('Build') {
+                          stage('Test') {
                             steps {
                                 container('docker') {
                                   sh '''
