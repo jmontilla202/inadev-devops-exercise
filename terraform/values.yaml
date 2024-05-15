@@ -144,7 +144,7 @@ controller:
     - pipeline-graph-view:271.v330cf007b_fe6
     - kubernetes-cli:1.12.1
     - job-dsl:1.86
-    # - startup-trigger-plugin:2.9.4
+    - startup-trigger-plugin:2.9.4
   installLatestPlugins: true
   installLatestSpecifiedPlugins: false
   additionalPlugins: []
@@ -166,7 +166,6 @@ controller:
     defaultConfig: true
     overwriteConfiguration: false
     configUrls:
-      - https://raw.githubusercontent.com/jmontilla202/inadev-devops-exercise/dev/terraform/jenkins_config_as_code.yaml
     configScripts: {}
     securityRealm: |-
       local:
