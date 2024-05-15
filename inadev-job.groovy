@@ -65,13 +65,6 @@
                                   go build -buildvcs=false -o wapi
                                 '''
                               }
-                              container('golang') {
-                                sh '''
-                                  cd src
-                                  go get "github.com/gin-gonic/gin"
-                                  go build -buildvcs=false -o wapi
-                                '''
-                              }
                             }
                           }
                           stage('Deploy') {
