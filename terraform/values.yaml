@@ -10,7 +10,8 @@ controller:
   image:
     registry: "docker.io"
     repository: "jenkins/jenkins"
-    tag: 2.457-jdk17
+    # tag: 2.457-jdk17
+    tag: 2.458
     tagLabel: jdk17
     pullPolicy: "Always"
   imagePullSecretName:
@@ -137,13 +138,13 @@ controller:
     - docker-plugin:1.6.1
     - golang:1.4
     - aws-credentials:231.v08a_59f17d742
-    - thinBackup:2.0
+    # - thinBackup:2.0
     - pipeline-aws:1.45
     - theme-manager:215.vc1ff18d67920
     - pipeline-graph-view:271.v330cf007b_fe6
     - kubernetes-cli:1.12.1
     - job-dsl:1.87
-    - startup-trigger-plugin:2.9.4
+    # - startup-trigger-plugin:2.9.4
   installLatestPlugins: true
   installLatestSpecifiedPlugins: false
   additionalPlugins: []
