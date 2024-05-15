@@ -1,7 +1,7 @@
   pipelineJob('wapi-app') {
         definition {
           cps {
-              script("""
+              script("""\
                 pipeline {
                   agent {
                     kubernetes {
