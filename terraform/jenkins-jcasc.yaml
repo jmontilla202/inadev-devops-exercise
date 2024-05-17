@@ -11,6 +11,6 @@ credentials:
       - usernamePassword:
           description: "Docker Hub"
           id: "docker-hub"
-          password: "{AQAAABAAAAAwIrqmPgc8rt9MElEW5F4NDJJoNnSXsqqtTV6z3ME9zryU0uOFbGdNmyZGzXgv7nm8/54/KUDeaXdJ93k8vM2iRA==}"
+          password: "{AQAAABAAAAAwh3GDyDXfeeof+qrVyerLjt81EYHruyPfYNENH+5LZdoO4SljDaVfE/0cDchxviLH2jvccAKNG4jPpW5RY3FeDQ==}"
           scope: GLOBAL
           username: "jose9123"
