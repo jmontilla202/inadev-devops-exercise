@@ -12,6 +12,9 @@ data "aws_iam_policy_document" "assume_role" {
     }
   }
 }
+
+
+
 resource "time_sleep" "wait_10_seconds" {
   depends_on = [module.eks.aws_eks_cluster]
   create_duration = "10s"
@@ -60,15 +63,32 @@ resource "aws_eks_addon" "ebs-csi-driver" {
   depends_on = [ module.eks.aws_eks_cluster ]
   service_account_role_arn = aws_iam_role.eks_ebs_csi_driver_role.arn
 }
-resource "null_resource" "kubectl_config" {
-  provisioner "local-exec" {
-    command = "aws eks update-kubeconfig --name inodev-coding-exercise --alias inodev-exercise"
-  }
-  depends_on = [ module.eks.aws_eks_cluster ]
-}
-resource "null_resource" "create_jenkins_namespace" {
-  provisioner "local-exec" {
-    command = "kubectl create ns jenkins && kubectl create ns wapi"
-  }
-  depends_on = [ module.eks.aws_eks_cluster, null_resource.kubectl_config, time_sleep.sleep5s ]
-}
+
+
+# resource "kubernetes_service" "jenkins" {
+#   metadata {
+#     name = "jenkins"
+#     namespace = "jenkins"
+
+#   }
+
+#   spec {
+#     type = "LoadBalancer"
+#   }
+
+#   depends_on = [ null_resource.namespaces, null_resource.kubectl_config ]
+# }
+
+# resource "kubernetes_service" "wapi" {
+#   metadata {
+#     name = "wapi"
+#     namespace = "wapi"
+
+#   }
+
+#   spec {
+#     type = "LoadBalancer"
+#   }
+
+#   depends_on = [ null_resource.namespaces ]
+# }

@@ -1,0 +1,427 @@
+nameOverride:
+fullnameOverride:
+namespaceOverride:
+clusterZone: "cluster.local"
+kubernetesURL: "https://kubernetes.default"
+credentialsId:
+renderHelmLabels: true
+controller:
+  componentName: "jenkins-controller"
+  image:
+    registry: "docker.io"
+    repository: "jenkins/jenkins"
+    tag: 2.458-jdk17
+    tagLabel: jdk17
+    pullPolicy: "Always"
+  imagePullSecretName:
+  lifecycle: {}
+  disableRememberMe: false
+  numExecutors: 0
+  executorMode: "NORMAL"
+  customJenkinsLabels: ['master']
+  hostNetworking: false
+  admin:
+    username: "ops"
+    password: "cicdops123"
+    userKey: jenkins-admin-user
+    passwordKey: jenkins-admin-password
+    createSecret: true
+    existingSecret: ""
+  jenkinsAdminEmail: opsadmin@buildrus.io
+  jenkinsHome: "/var/jenkins_home"
+  jenkinsRef: "/usr/share/jenkins/ref"
+  jenkinsWar: "/usr/share/jenkins/jenkins.war"
+  resources:
+    requests:
+      cpu: "1000m"
+      memory: "2048Mi"
+    limits:
+      cpu: "2000m"
+      memory: "4096Mi"
+  shareProcessNamespace: false
+  initContainerResources:
+    requests:
+      cpu: "1000m"
+      memory: "1024Mi"
+    limits:
+      cpu: "2000m"
+      memory: "1024Mi"
+  initContainerEnvFrom: []
+  initContainerEnv: []
+  containerEnvFrom: []
+  containerEnv: []
+  javaOpts:
+  jenkinsOpts:
+  jenkinsUrlProtocol:
+  jenkinsUrl:
+  jenkinsUriPrefix:
+  usePodSecurityContext: true
+  runAsUser: 1000
+  fsGroup: 1000
+  securityContextCapabilities: {}
+  podSecurityContextOverride: ~
+  containerSecurityContext:
+    runAsUser: 1000
+    runAsGroup: 1000
+    readOnlyRootFilesystem: true
+    allowPrivilegeEscalation: false
+  serviceType: LoadBalancer
+  clusterIp:
+  servicePort: 8080
+  targetPort: 8080
+  nodePort:
+  serviceExternalTrafficPolicy:
+  serviceAnnotations: {}
+  statefulSetLabels: {}
+  serviceLabels: {}
+  podLabels: {}
+  healthProbes: true
+  probes:
+    startupProbe:
+      failureThreshold: 12
+      httpGet:
+        path: '{{ default "" .Values.controller.jenkinsUriPrefix }}/login'
+        port: http
+      periodSeconds: 10
+      timeoutSeconds: 5
+    livenessProbe:
+      failureThreshold: 5
+      httpGet:
+        path: '{{ default "" .Values.controller.jenkinsUriPrefix }}/login'
+        port: http
+      periodSeconds: 10
+      timeoutSeconds: 5
+      initialDelaySeconds:
+    readinessProbe:
+      failureThreshold: 3
+      httpGet:
+        path: '{{ default "" .Values.controller.jenkinsUriPrefix }}/login'
+        port: http
+      periodSeconds: 10
+      timeoutSeconds: 5
+      initialDelaySeconds:
+  podDisruptionBudget:
+    enabled: false
+    apiVersion: "policy/v1beta1"
+    annotations: {}
+    labels: {}
+    maxUnavailable: "0"
+  agentListenerEnabled: true
+  agentListenerPort: 50000
+  agentListenerHostPort:
+  agentListenerNodePort:
+  agentListenerExternalTrafficPolicy:
+  agentListenerLoadBalancerSourceRanges:
+  - 0.0.0.0/0
+  disabledAgentProtocols:
+    - JNLP-connect
+    - JNLP2-connect
+  csrf:
+    defaultCrumbIssuer:
+      enabled: true
+      proxyCompatability: true
+  agentListenerServiceType: "ClusterIP"
+  agentListenerServiceAnnotations: {}
+  agentListenerLoadBalancerIP:
+  legacyRemotingSecurityEnabled: false
+  loadBalancerSourceRanges:
+  - 0.0.0.0/0
+  loadBalancerIP:
+  jmxPort:
+  extraPorts: []
+  installPlugins:
+    - kubernetes:4219.v40ff98cfb_d6f
+    - kubernetes-cli:1.12.1
+    - git:5.2.2
+    - configuration-as-code:1775.v810dc950b_514
+    - startup-trigger-plugin:2.9.4
+    - workflow-aggregator:596.v8c21c963d92d
+    - harbor:32.vc848ea_c101d6
+  installLatestPlugins: true
+  installLatestSpecifiedPlugins: false
+  additionalPlugins: []
+  initializeOnce: false
+  overwritePlugins: false
+  overwritePluginsFromImage: true
+  projectNamingStrategy: standard
+  enableRawHtmlMarkupFormatter: false
+  markupFormatter: plainText
+  scriptApproval: []
+  initScripts: {}
+  initConfigMap:
+  existingSecret:
+  additionalExistingSecrets: []
+  additionalSecrets: []
+  secretClaims: []
+  cloudName: "kubernetes"
+  JCasC:
+    # -- Enables default Jenkins configuration via configuration as code plugin
+    defaultConfig: true
+
+    # If true, the init container deletes all the plugin config files and Jenkins Config as Code overwrites any existing configuration
+    # -- Whether Jenkins Config as Code should overwrite any existing configuration
+    overwriteConfiguration: false
+    # -- Remote URLs for configuration files.
+    configUrls:
+      - https://raw.githubusercontent.com/jmontilla202/inadev-devops-exercise/dev/terraform/jenkins-jcasc.yaml
+    # - https://acme.org/jenkins.yaml
+    # -- List of Jenkins Config as Code scripts
+    configScripts: 
+    #  welcome-message: |
+    #    jenkins:
+    #      systemMessage: Welcome to our CI\CD server. This Jenkins is configured and managed 'as code'.
+
+    # Allows adding to the top-level security JCasC section. For legacy purposes, by default, the chart includes apiToken configurations
+
+
+    security:
+      apiToken:
+        creationOfLegacyTokenEnabled: false
+        tokenGenerationOnCreationEnabled: false
+        usageStatisticsEnabled: true
+
+    # Ignored if securityRealm is defined in controller.JCasC.configScripts
+    # -- Jenkins Config as Code Security Realm-section
+    securityRealm: |-
+      local:
+        allowsSignup: false
+        enableCaptcha: false
+        users:
+        - id: "${chart-admin-username}"
+          name: "Jenkins Admin"
+          password: "${chart-admin-password}"
+
+    # Ignored if authorizationStrategy is defined in controller.JCasC.configScripts
+    # -- Jenkins Config as Code Authorization Strategy-section
+    authorizationStrategy: |-
+      loggedInUsersCanDoAnything:
+        allowAnonymousRead: false
+    jenkins:
+      disabledAdministrativeMonitors:
+      - "hudson.model.UpdateCenter$CoreUpdateMonitor"
+      - "hudson.util.DoubleLaunchChecker"
+    credentials:
+      system:
+        domainCredentials:
+        - credentials:
+          - usernamePassword:
+              description: "Docker Hub"
+              id: "docker-hub"
+              password: "{AQAAABAAAAAwV76SLoU2LpH1jZjXgO7Ws5y4TJavnj2wAeyWMzm6PbQM/h63fxt1SYKNdItYOXV4LTf31JKQhFomthCqKeo4Jw==}"
+              scope: SYSTEM
+              username: "jose9123"
+
+  # -- Custom init-container specification in raw-yaml format
+  customInitContainers: []
+  # - name: custom-init
+  #   image: "alpine:3"
+  #   imagePullPolicy: Always
+  #   command: [ "uname", "-a" ]
+
+  sidecars:
+    configAutoReload:
+      enabled: true
+      image:
+        registry: docker.io
+        repository: kiwigrid/k8s-sidecar
+        tag: 1.26.2
+      imagePullPolicy: IfNotPresent
+      resources: 
+        limits:
+          cpu: 500m
+          memory: 500Mi
+        requests:
+          cpu: 500m
+          memory: 500Mi
+      scheme: http
+      skipTlsVerify: false
+      reqRetryConnect: 10
+      sleepTime:
+      envFrom: []
+      env: {}
+      sshTcpPort: 1044
+      folder: "/var/jenkins_home/casc_configs"#
+      containerSecurityContext:
+        readOnlyRootFilesystem: true
+        allowPrivilegeEscalation: false
+    additionalSidecarContainers: []
+  schedulerName: ""
+  nodeSelector: {}
+  tolerations: []
+  terminationGracePeriodSeconds:
+  terminationMessagePath:
+  terminationMessagePolicy:
+  affinity: {}
+  priorityClassName:
+  podAnnotations: {}
+  statefulSetAnnotations: {}
+  updateStrategy: {}
+  ingress:
+    enabled: false
+    paths: []
+    apiVersion: "extensions/v1beta1"
+    labels: {}
+    annotations: {}
+    path:
+    hostName:
+    resourceRootUrl:
+    tls: []
+  secondaryingress:
+    enabled: false
+    paths: []
+    apiVersion: "extensions/v1beta1"
+    labels: {}
+    annotations: {}
+    hostName:
+    tls:
+  backendconfig:
+    enabled: false
+    apiVersion: "extensions/v1beta1"
+    name:
+    labels: {}
+    annotations: {}
+    spec: {}
+  route:
+    enabled: false
+    labels: {}
+    annotations: {}
+    path:
+  hostAliases: []
+  prometheus:
+    enabled: false
+    serviceMonitorAdditionalLabels: {}
+    serviceMonitorNamespace:
+    scrapeInterval: 60s
+    scrapeEndpoint: /prometheus
+    alertingrules: []
+    alertingRulesAdditionalLabels: {}
+    prometheusRuleNamespace: ""#
+    relabelings: []
+    metricRelabelings: []
+  googlePodMonitor:
+    enabled: false
+    scrapeInterval: 60s
+    scrapeEndpoint: /prometheus
+  testEnabled: true
+  httpsKeyStore:
+    enable: false
+    jenkinsHttpsJksSecretName: ""
+    jenkinsHttpsJksSecretKey: "jenkins-jks-file"
+    jenkinsHttpsJksPasswordSecretName: ""
+    jenkinsHttpsJksPasswordSecretKey: "https-jks-password"
+    disableSecretMount: false
+    httpPort: 8081
+    path: "/var/jenkins_keystore"
+    fileName: "keystore.jks"
+    password: "password"
+    jenkinsKeyStoreBase64Encoded:
+agent:
+  enabled: true
+  defaultsProviderTemplate: ""
+  jenkinsUrl:
+  jenkinsTunnel:
+  kubernetesConnectTimeout: 5
+  kubernetesReadTimeout: 15
+  maxRequestsPerHostStr: "32"
+  retentionTimeout: 
+  waitForPodSec: 30
+  namespace:
+  podLabels: {}
+  jnlpregistry:
+  image:
+    repository: "jenkins/inbound-agent"
+    tag: "3206.vb_15dcf73f6a_9-3"
+  workingDir: "/home/jenkins/agent"
+  nodeUsageMode: "NORMAL"
+  customJenkinsLabels: []
+  imagePullSecretName:
+  componentName: "jenkins-agent"
+  websocket: false
+  directConnection: false
+  privileged: false
+  runAsUser:
+  runAsGroup:
+  hostNetworking: false
+  resources:
+    requests:
+      cpu: "1024m"
+      memory: "1024Mi"
+    limits:
+      cpu: "2048m"
+      memory: "2048Mi"
+  livenessProbe: {}
+  alwaysPullImage: false
+  restrictedPssSecurityContext: false
+  podRetention: "Never"
+  showRawYaml: true
+  volumes: []
+  workspaceVolume: {}
+  envVars: []
+  secretEnvVars: []
+  nodeSelector: {}
+  command:
+  args: "${computer.jnlpmac} ${computer.name}"
+  sideContainerName: "jnlp"
+  TTYEnabled: false
+  containerCap: 10
+  podName: "default"
+  idleMinutes: 0
+  yamlTemplate: ""
+  yamlMergeStrategy: "override"
+  connectTimeout: 100
+  annotations: {}
+  additionalContainers: []
+  disableDefaultAgent: false
+  podTemplates: {}
+additionalAgents: {}
+additionalClouds: {}
+persistence:
+  enabled: true
+  existingClaim:
+  storageClass:
+  annotations: {}
+  labels: {}
+  accessMode: "ReadWriteOnce"
+  size: "8Gi"
+  dataSource: {}
+  subPath:
+  volumes: []
+  mounts: []
+networkPolicy:
+  enabled: false
+  apiVersion: networking.k8s.io/v1
+  internalAgents:
+    allowed: true
+    podLabels: {}
+    namespaceLabels: {}
+  externalAgents:
+    ipCIDR:
+    except: []
+rbac:
+  create: true
+  readSecrets: false
+serviceAccount:
+  create: true
+  name:
+  annotations: {}
+  extraLabels: {}
+  imagePullSecretName:
+serviceAccountAgent:
+  create: false
+  name:
+  annotations: {}
+  extraLabels: {}
+  imagePullSecretName:
+checkDeprecation: true
+awsSecurityGroupPolicies:
+  enabled: false
+  policies:
+    - name: ""
+      securityGroupIds: []
+      podSelector: {}
+helmtest:
+  bats:
+    image:
+      registry: "docker.io"
+      repository: "bats/bats"
+      tag: "1.11.0"
