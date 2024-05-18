@@ -1,5 +1,3 @@
-<div style=text-align: center>## Wapi App</div>
-
 ## Wapi App - Weather API
 
 ### How to deploy cluster and Jenkins:
