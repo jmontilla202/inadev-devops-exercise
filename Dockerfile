@@ -6,4 +6,4 @@ COPY /src/* ./
 
 EXPOSE 8080
 
-CMD ["/wapi"]
+CMD ["/app/wapi"]
