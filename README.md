@@ -21,7 +21,7 @@ Proccess can take around 15 minutes to complete.
 ### Components built / instantiated
 
 - AWS VPC, subnets and releated networking components
-- EKS cluster
+- EKS cluster (Nodes: t3a.medium spot x 2)
 - Jenkins deployment
 - Wapi App Deployment
 
