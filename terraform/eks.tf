@@ -13,8 +13,6 @@ data "aws_iam_policy_document" "assume_role" {
   }
 }
 
-
-
 resource "time_sleep" "wait_10_seconds" {
   depends_on = [module.eks.aws_eks_cluster]
   create_duration = "10s"
@@ -63,6 +61,40 @@ resource "aws_eks_addon" "ebs-csi-driver" {
   depends_on = [ module.eks.aws_eks_cluster ]
   service_account_role_arn = aws_iam_role.eks_ebs_csi_driver_role.arn
 }
+
+# resource "kubernetes_persistent_volume" "jenkins_home" {
+#   provider = "kubernetes.localkubernetes"
+#   metadata {
+#     name = "jenkins_pv"
+#   }
+#   spec {
+#     access_modes = ["ReadWriteMany"]
+#     storage_class_name = "gp2"
+#     capacity = {
+#       storage = "8Gi"
+#     }
+#     persistent_volume_source {
+#         csi {
+#           driver = "ebs.csi.aws.com"
+#         }
+#     }
+#   }
+# }
+
+# resource "kubernetes_persistent_volume_claim" "jenkins_home" {
+#   metadata {
+#     name = "jenkins_home"
+#   }
+#   spec {
+#     access_modes = ["ReadWriteMany"]
+#     resources {
+#       requests = {
+#         storage = "5Gi"
+#       }
+#     }
+#     volume_name = "${kubernetes_persistent_volume.example.metadata.0.name}"
+#   }
+# }
 
 
 # resource "kubernetes_service" "jenkins" {

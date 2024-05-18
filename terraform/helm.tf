@@ -17,20 +17,20 @@ resource "null_resource" "namespaces" {
   depends_on = [ module.eks.aws_eks_cluster, null_resource.kubectl_config, time_sleep.sleep5s ]
 }
 
-resource "helm_release" "jenkins" {
-  provider = helm
+# resource "helm_release" "jenkins" {
+#   provider = helm
 
-  name       = "jenkins"
-  repository = "https://charts.jenkins.io"
-  chart      = "jenkins"
-  namespace  = "jenkins"
-  timeout    = 600
-  values = [
-    file("../helm/jenkins_release_values.yaml"),
-   ]
+#   name       = "jenkins"
+#   repository = "https://charts.jenkins.io"
+#   chart      = "jenkins"
+#   namespace  = "jenkins"
+#   timeout    = 600
+#   values = [
+#     file("../helm/jenkins_release_values.yaml"),
+#    ]
 
-   depends_on = [null_resource.namespaces]
- }
+#    depends_on = [null_resource.namespaces]
+#  }
 
 # resource "helm_release" "wapi" {
 #   provider = helm
