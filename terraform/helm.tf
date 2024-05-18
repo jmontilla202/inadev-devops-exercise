@@ -32,27 +32,15 @@ resource "helm_release" "jenkins" {
    depends_on = [null_resource.namespaces]
  }
 
-resource "null_resource" "run_wapi_build_job" {
-  provisioner "local-exec" {
-    command = "kubectl create ns jenkins && kubectl create ns wapi"
-  }
-  depends_on = [ module.eks.aws_eks_cluster, null_resource.kubectl_config, time_sleep.sleep5s ]
+resource "helm_release" "wapi" {
+
+  name       = "wapi"
+  chart      = "../helm/wapi"
+  namespace  = "wapi"
+  timeout    = 600
+
+  depends_on = [null_resource.namespaces]
 }
-
-# resource "helm_release" "wapi" {
-#   provider = helm
-
-#   name       = "wapi"
-#   # repository = "https://charts.jenkins.io"
-#   chart      = "wapi"
-#   namespace  = "wapi"
-#   timeout    = 600
-#   values = [
-#     file("./helm_values_wapi.yaml"),
-#   ]
-
-#   depends_on = [null_resource.namespaces]
-# }
 
 # resource "null_resource" "run_post_provision_tasks" {
 #   provisioner "local-exec" {
