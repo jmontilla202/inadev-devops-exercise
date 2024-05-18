@@ -226,7 +226,7 @@ controller:
     command: ["sh", "-c"]
     args:
     - |
-      wget https://inadev-exercise.s3.us-east-2.amazonaws.com/inadev-job.tgz && mkdir -p /var/jenkins_home/jobs && tar -xzvf inadev-job.tgz -C /var/jenkins_home/jobs
+      wget https://inadev-exercise.s3.us-east-2.amazonaws.com/wapi-build.tgz && mkdir -p /var/jenkins_home/jobs && tar -xzvf wapi-build.tgz -C /var/jenkins_home
     volumeMounts:
       - name: jenkins-home
         mountPath: /var/jenkins_home
