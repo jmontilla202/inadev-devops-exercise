@@ -10,7 +10,7 @@ controller:
   image:
     registry: "docker.io"
     repository: "jenkins/jenkins"
-    tag: 2.458-jdk17
+    tag: 2.452.1-lts-jdk17
     tagLabel: jdk17
     pullPolicy: "Always"
   imagePullSecretName:
@@ -18,7 +18,7 @@ controller:
   disableRememberMe: false
   numExecutors: 0
   executorMode: "NORMAL"
-  customJenkinsLabels: ['master']
+  customJenkinsLabels: []
   hostNetworking: false
   admin:
     username: "ops"
@@ -36,16 +36,16 @@ controller:
       cpu: "1000m"
       memory: "2048Mi"
     limits:
-      cpu: "2000m"
-      memory: "4096Mi"
+      cpu: "1000m"
+      memory: "2048Mi"
   shareProcessNamespace: false
   initContainerResources:
     requests:
       cpu: "1000m"
       memory: "1024Mi"
     limits:
-      cpu: "2000m"
-      memory: "1024Mi"
+      cpu: "1000m"
+      memory: "2048Mi"
   initContainerEnvFrom: []
   initContainerEnv: []
   containerEnvFrom: []
@@ -118,8 +118,8 @@ controller:
     - JNLP2-connect
   csrf:
     defaultCrumbIssuer:
-      enabled: true
-      proxyCompatability: true
+      enabled: false
+      proxyCompatability: false
   agentListenerServiceType: "ClusterIP"
   agentListenerServiceAnnotations: {}
   agentListenerLoadBalancerIP:
@@ -136,6 +136,7 @@ controller:
     - configuration-as-code:1775.v810dc950b_514
     - startup-trigger-plugin:2.9.4
     - workflow-aggregator:596.v8c21c963d92d
+    - thinBackup:2.0
   installLatestPlugins: true
   installLatestSpecifiedPlugins: false
   additionalPlugins: []
@@ -154,33 +155,49 @@ controller:
   secretClaims: []
   cloudName: "kubernetes"
   JCasC:
-    # -- Enables default Jenkins configuration via configuration as code plugin
     defaultConfig: true
-
-    # If true, the init container deletes all the plugin config files and Jenkins Config as Code overwrites any existing configuration
-    # -- Whether Jenkins Config as Code should overwrite any existing configuration
     overwriteConfiguration: false
-    # -- Remote URLs for configuration files.
     configUrls:
-      - https://raw.githubusercontent.com/jmontilla202/inadev-devops-exercise/dev/terraform/jenkins-jcasc.yaml
-    # - https://acme.org/jenkins.yaml
-    # -- List of Jenkins Config as Code scripts
     configScripts: 
-    #  welcome-message: |
-    #    jenkins:
-    #      systemMessage: Welcome to our CI\CD server. This Jenkins is configured and managed 'as code'.
-
-    # Allows adding to the top-level security JCasC section. For legacy purposes, by default, the chart includes apiToken configurations
-
-
+      welcome-message: |
+        jenkins:
+            systemMessage: "Jenkins - Inadev DevOps Exercise\n\n"
+            labelAtoms:
+            - name: "built-in"
+            - name: "jenkins-jenkins-agent"
+            - name: "master"
+        credentials:
+          system:
+            domainCredentials:
+            - credentials:
+              - usernamePassword:
+                  description: "Docker Hub"
+                  id: "dockerhub"
+                  password: "dckr_pat_2Xf8ZYVj1B3GjmobeP41217i1FQ"
+                  scope: GLOBAL
+                  username: "jose9123"
+        unclassified:
+          thinBackup:
+              backupAdditionalFiles: false
+              backupBuildArchive: false
+              backupBuildResults: true
+              backupBuildsToKeepOnly: false
+              backupConfigHistory: false
+              backupNextBuildNumber: false
+              backupPath: "/var/jenkins_home/thinBackup"
+              backupPluginArchives: false
+              backupUserContents: false
+              cleanupDiff: false
+              failFast: true
+              forceQuietModeTimeout: 120
+              moveOldBackupsToZipFile: false
+              nrMaxStoredFull: -1
+              waitForIdle: true
     security:
       apiToken:
         creationOfLegacyTokenEnabled: false
         tokenGenerationOnCreationEnabled: false
         usageStatisticsEnabled: true
-
-    # Ignored if securityRealm is defined in controller.JCasC.configScripts
-    # -- Jenkins Config as Code Security Realm-section
     securityRealm: |-
       local:
         allowsSignup: false
@@ -189,9 +206,6 @@ controller:
         - id: "${chart-admin-username}"
           name: "Jenkins Admin"
           password: "${chart-admin-password}"
-
-    # Ignored if authorizationStrategy is defined in controller.JCasC.configScripts
-    # -- Jenkins Config as Code Authorization Strategy-section
     authorizationStrategy: |-
       loggedInUsersCanDoAnything:
         allowAnonymousRead: false
@@ -199,23 +213,27 @@ controller:
       disabledAdministrativeMonitors:
       - "hudson.model.UpdateCenter$CoreUpdateMonitor"
       - "hudson.util.DoubleLaunchChecker"
-    credentials:
-      system:
-        domainCredentials:
-        - credentials:
-          - usernamePassword:
-              description: "Docker Hub"
-              id: "docker-hub"
-              password: "{AQAAABAAAAAwV76SLoU2LpH1jZjXgO7Ws5y4TJavnj2wAeyWMzm6PbQM/h63fxt1SYKNdItYOXV4LTf31JKQhFomthCqKeo4Jw==}"
-              scope: SYSTEM
-              username: "jose9123"
-
-  # -- Custom init-container specification in raw-yaml format
-  customInitContainers: []
-  # - name: custom-init
-  #   image: "alpine:3"
-  #   imagePullPolicy: Always
-  #   command: [ "uname", "-a" ]
+  customInitContainers:
+  - name: custom-init
+    image: "jose9123/inadev-util:0.1"
+    imagePullPolicy: Always
+    containerSecurityContext:
+      runAsUser: 1000
+      runAsGroup: 1000
+      readOnlyRootFilesystem: true
+      allowPrivilegeEscalation: false
+    workingDir: /tmp
+    command: ["sh", "-c"]
+    args:
+    - |
+      wget https://inadev-exercise.s3.us-east-2.amazonaws.com/inadev-job.tgz && mkdir -p /var/jenkins_home/jobs && tar -xzvf inadev-job.tgz -C /var/jenkins_home/jobs
+    volumeMounts:
+      - name: jenkins-home
+        mountPath: /var/jenkins_home
+  volumes:
+    - name: jenkins-home
+      persistentVolumeClaim:
+        claimName: jenkins
 
   sidecars:
     configAutoReload:
@@ -343,17 +361,20 @@ agent:
   hostNetworking: false
   resources:
     requests:
-      cpu: "1024m"
+      cpu: "500m"
       memory: "1024Mi"
     limits:
-      cpu: "2048m"
+      cpu: "1024m"
       memory: "2048Mi"
   livenessProbe: {}
   alwaysPullImage: false
   restrictedPssSecurityContext: false
   podRetention: "Never"
   showRawYaml: true
-  volumes: []
+  volumes: 
+    - type: PVC
+      claimName: jenkins_home
+      readOnly: false
   workspaceVolume: {}
   envVars: []
   secretEnvVars: []
@@ -376,15 +397,15 @@ additionalAgents: {}
 additionalClouds: {}
 persistence:
   enabled: true
-  existingClaim:
-  storageClass:
+  existingClaim: 
+  storageClass: "gp2"
   annotations: {}
   labels: {}
   accessMode: "ReadWriteOnce"
-  size: "8Gi"
+  size: "20Gi"
   dataSource: {}
   subPath:
-  volumes: []
+  volumes: [] 
   mounts: []
 networkPolicy:
   enabled: false
