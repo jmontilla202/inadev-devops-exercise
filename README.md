@@ -1,27 +1,36 @@
 <div style=text-align: center>## Wapi App</div>
 
-### Completed:
-
-- Cluster deployment automated (1a)
-- Jenkins deployment to cluster automated (2a)
-- Weather API app completed (3a)
-- App builds ok in Jenkins and deploys ok to cluster (4a)
-- Scripts to fully  automate process
-
-### Pending
-
-- Documentation in progress ...
+## Wapi App - Weather API
 
 ### How to deploy cluster and Jenkins:
 
-- cd into terraform folder
+- clone this repo
+- cd into <repo folder>/terraform folder
 - terraform init
 - terraform plan
-- terraform apply
+- terraform apply (yes to confirm changes)
 
-### How to build app:
+Proccess can take around 15 minutes to complete.
 
-- cd into wtw/src
+### Requirement to build environment
+
+- terraform
+- aws cli (with admin rights to an AWS account)
+- kubectl
+- helm
+- MacOS or Linux (MacOS should work with little or no modifications)
+
+### Components built / instantiated
+
+- AWS VPC, subnets and releated networking components
+- EKS cluster
+- Jenkins deployment
+- Wapi App Deployment
+
+### How to build app locally:
+
+- clone this repo
+- cd into <repo folder>/src
 - go get github.com/gin-gonic/gin
 - go build
 

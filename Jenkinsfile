@@ -48,7 +48,7 @@
                   sh '''
                   cd src
                   go get "github.com/gin-gonic/gin"
-                  go build -buildvcs=false
+                  go build -buildvcs=false -o wapi
                   '''
                 }
                 container('docker') {
