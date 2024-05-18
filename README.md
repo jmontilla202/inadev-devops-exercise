@@ -27,6 +27,11 @@ Proccess can take around 15 minutes to complete.
 - Jenkins deployment
 - Wapi App Deployment
 
+### Workflow
+
+- Once environment is up build job will get triggered
+- Jenkins job will pull down repo, run docker build then push image to registry
+
 ### How to build app locally:
 
 - clone this repo
@@ -34,5 +39,8 @@ Proccess can take around 15 minutes to complete.
 - go get github.com/gin-gonic/gin
 - go build
 
+### How to use the app
 
+- make a GET call to <loadbalancer IP>/forecast with either curl or Postman
+- json response should be returned, location can be adjusted in main.go
 
