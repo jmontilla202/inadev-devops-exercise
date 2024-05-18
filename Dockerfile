@@ -2,7 +2,7 @@ FROM golang:1.21
 
 WORKDIR /app
 
-COPY /src/* ./
+COPY src/wapi /app
 
 EXPOSE 8080
 
