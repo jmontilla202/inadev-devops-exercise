@@ -6,18 +6,19 @@ metadata:
   labels:
     app: wapi-deploy
 spec:
-replicas: 1
+  replicas: 1
   selector:
     matchLabels:
       app: wapi
   template:
     metadata:
-   aws configure set region "us-east-1".   labels:
-        app: wapi
-        role: api
+      labels:
+          app: wapi
+          role: api
     spec:
       containers:
       - name: wapi
         image: jose9123/wapi:latest
+        imagePullPolicy: Always
         ports:
         - containerPort: 8080
