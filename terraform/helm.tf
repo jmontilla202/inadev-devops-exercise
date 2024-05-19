@@ -35,10 +35,3 @@ resource "helm_release" "wapi" {
 
   depends_on = [ null_resource.namespaces, aws_eks_addon.ebs-csi-driver ]
 }
-
-resource "null_resource" "hostnames" {
-  provisioner "local-exec" {
-    command = "./get_hostname_info.sh"
-  }
-  depends_on = [helm_release.jenkins,helm_release.wapi]
-}
