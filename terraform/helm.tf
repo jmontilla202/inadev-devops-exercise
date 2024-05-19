@@ -1,19 +1,16 @@
 
 data "external" "get_hostname_jenkins" {
   program = ["bash", "get_hostname_jenkins.sh"]
-  depends_on = [ helm_release.jenkins ]
 }
 
 data "external" "get_hostname_wapi" {
   program = ["bash", "get_hostname_wapi.sh"]
-  depends_on = [ helm_release.wapi ]
 }
 
 locals {
-  jenkins_lb    = "http://${data.external.get_hostname_jenkins.result.hostname}:8080 - (ops:cicdops123)"
-  wapi_lb       = "http://${data.external.get_hostname_wapi.result.hostname}"
+  jenkins_lb      = "${data.external.get_hostname_jenkins}"
+  wapi_lb = "${data.external.get_hostname_wapi}"
 }
-
 resource "null_resource" "kubectl_config" {
   provisioner "local-exec" {
     command = "aws eks update-kubeconfig --name inodev-coding-exercise --alias inodev-exercise"
@@ -23,6 +20,13 @@ resource "null_resource" "kubectl_config" {
 resource "null_resource" "namespaces" {
   provisioner "local-exec" {
     command = "kubectl create ns jenkins && kubectl create ns wapi"
+  }
+  depends_on = [null_resource.kubectl_config]
+}
+
+resource "null_resource" "wapi_role" {
+  provisioner "local-exec" {
+    command = "kubectl apply -f ../helm/wapi-deploy-permissions.yaml"
   }
   depends_on = [null_resource.kubectl_config]
 }
@@ -39,7 +43,7 @@ resource "helm_release" "jenkins" {
     file("../helm/jenkins_release_values.yaml"),
    ]
 
-   depends_on = [null_resource.namespaces]
+   depends_on = [null_resource.namespaces, aws_eks_addon.ebs-csi-driver]
  }
 
 resource "helm_release" "wapi" {
@@ -49,5 +53,5 @@ resource "helm_release" "wapi" {
   namespace  = "wapi"
   timeout    = 180
 
-  depends_on = [null_resource.namespaces]
+  depends_on = [ null_resource.namespaces, aws_eks_addon.ebs-csi-driver ]
 }
