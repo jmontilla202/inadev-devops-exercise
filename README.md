@@ -42,3 +42,7 @@ Proccess can take around 15 minutes to complete.
 - go get github.com/gin-gonic/gin
 - go build
 
+### Screenshots
+
+![image info](./screenshots/00-terraform_apply.png)
+
