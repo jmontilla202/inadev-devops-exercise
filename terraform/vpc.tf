@@ -33,3 +33,8 @@ module "vpc" {
     env = var.env
   }
 }
+
+resource "time_sleep" "sleep_after_vpc" {
+  create_duration = "1s"
+  depends_on = [ module.vpc ]
+}

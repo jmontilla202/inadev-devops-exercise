@@ -2,6 +2,7 @@ locals {
   profile      = "inodev-exercise"
   cluster_name = "inodev-coding-exercise"
 }
+
 data "aws_iam_policy_document" "assume_role" {
   statement {
     effect = "Allow"
@@ -11,20 +12,21 @@ data "aws_iam_policy_document" "assume_role" {
       identifiers = [module.eks.oidc_provider_arn]
     }
   }
+  depends_on = [ module.vpc ]
 }
 
-resource "time_sleep" "wait_10_seconds" {
-  depends_on = [module.eks.aws_eks_cluster]
-  create_duration = "10s"
-}
 resource "aws_iam_role" "eks_ebs_csi_driver_role" {
   name               = "eks-ebs-csi-driver-role"
   assume_role_policy = data.aws_iam_policy_document.assume_role.json
+  depends_on = [ module.vpc ]
 }
+
 resource "aws_iam_role_policy_attachment" "ebs_csi_driver_policy_attachment" {
   role       = aws_iam_role.eks_ebs_csi_driver_role.name
   policy_arn = "arn:aws:iam::aws:policy/service-role/AmazonEBSCSIDriverPolicy"
+  depends_on = [ module.vpc ]
 }
+
 module "eks" {
   source  = "terraform-aws-modules/eks/aws"
   version = "20.8.5"
@@ -54,7 +56,10 @@ module "eks" {
   tags = {
     Environment = "dev"
   }
+
+  depends_on = [module.vpc]
 }
+
 resource "aws_eks_addon" "ebs-csi-driver" {
   cluster_name = local.cluster_name
   addon_name   = "aws-ebs-csi-driver"
@@ -62,3 +67,7 @@ resource "aws_eks_addon" "ebs-csi-driver" {
   service_account_role_arn = aws_iam_role.eks_ebs_csi_driver_role.arn
 }
 
+resource "time_sleep" "sleep_after_ebs" {
+  create_duration = "1s"
+  depends_on = [ aws_eks_addon.ebs-csi-driver, module.eks.aws_eks_cluster ]
+}

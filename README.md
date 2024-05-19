@@ -3,7 +3,7 @@
 ### How to deploy cluster and Jenkins:
 
 - clone this repo
-- cd into [Repo Folder]/terraform folder
+- cd into **[Repo]**/terraform folder
 - terraform init
 - terraform plan
 - terraform apply (yes to confirm changes)
@@ -30,17 +30,26 @@ Proccess can take around 15 minutes to complete.
 - Once environment is up build job will get triggered
 - Jenkins job will pull down repo, run build , create docker image then push image to registry
 
-### How to use the app
+### To test app
 
-- Make a GET call to [loadbalancer IP]/forecast with either curl or Postman
+- Make a GET call to **http://[LoadBalancer IP]/forecast** with either curl or Postman
 - json response should be returned, location can be adjusted in main.go
 
 ### How to build app locally:
 
 - clone this repo
-- cd into [repo folder]/src
+- cd into **[Repo]**/src
 - go get github.com/gin-gonic/gin
 - go build
 
+### Screenshots
 
+![image info](https://github.com/jmontilla202/inadev-devops-exercise/scrrenshots/00-terraform_apply.png)
+![image info](https://github.com/jmontilla202/inadev-devops-exercise/scrrenshots/01-terraform_apply.png)
+![image info](https://github.com/jmontilla202/inadev-devops-exercise/scrrenshots/02-terraform_apply.png)
+![image info](https://github.com/jmontilla202/inadev-devops-exercise/scrrenshots/03-terraform_apply.png)
+![image info](https://github.com/jmontilla202/inadev-devops-exercise/scrrenshots/04-terraform_apply.png)
+![image info](https://github.com/jmontilla202/inadev-devops-exercise/scrrenshots/05-terraform_apply.png)
+![image info](https://github.com/jmontilla202/inadev-devops-exercise/scrrenshots/06-terraform_apply.png)
+![image info](https://github.com/jmontilla202/inadev-devops-exercise/scrrenshots/07-terraform_apply.png)
 
