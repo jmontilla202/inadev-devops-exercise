@@ -12,7 +12,6 @@ data "aws_iam_policy_document" "assume_role" {
       identifiers = [module.eks.oidc_provider_arn]
     }
   }
-  depends_on = [ module.vpc ]
 }
 
 resource "aws_iam_role" "eks_ebs_csi_driver_role" {
@@ -63,11 +62,6 @@ module "eks" {
 resource "aws_eks_addon" "ebs-csi-driver" {
   cluster_name = local.cluster_name
   addon_name   = "aws-ebs-csi-driver"
-  depends_on = [ module.eks.aws_eks_cluster ]
+  depends_on = [module.eks.aws_eks_cluster]
   service_account_role_arn = aws_iam_role.eks_ebs_csi_driver_role.arn
-}
-
-resource "time_sleep" "sleep_after_ebs" {
-  create_duration = "1s"
-  depends_on = [ aws_eks_addon.ebs-csi-driver, module.eks.aws_eks_cluster ]
 }
