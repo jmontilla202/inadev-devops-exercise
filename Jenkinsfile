@@ -26,6 +26,13 @@
                         runAsGroup: 0
                         readOnlyRootFilesystem: false
                         privileged: true
+                       containers:     
+                    - name: kubectl
+                      image: jose9123/inadev-util:02
+                      command:
+                      - cat
+                      tty: true
+                    serviceAccountName: jenkins
                     '''
                   retries 2
               }
@@ -65,9 +72,12 @@
             }
             stage('Deploy') {
               steps {
-                sh '''
-                echo deply
-                '''
+              container('kubectl') {
+                  sh '''
+                    kubectl get -n wapi pods
+                  '''
+                }
+            }
               }
             }
           }
