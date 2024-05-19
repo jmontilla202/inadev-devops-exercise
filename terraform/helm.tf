@@ -29,7 +29,7 @@ resource "helm_release" "jenkins" {
     file("../helm/jenkins_release_values.yaml"),
    ]
 
-   depends_on = [null_resource.namespaces]
+   depends_on = [null_resource.namespaces,time_sleep.sleep5s]
  }
 
 resource "helm_release" "wapi" {
@@ -39,5 +39,5 @@ resource "helm_release" "wapi" {
   namespace  = "wapi"
   timeout    = 600
 
-  depends_on = [null_resource.namespaces]
+  depends_on = [null_resource.namespaces, helm_release.jenkins, time_sleep.wait_10_seconds]
 }
