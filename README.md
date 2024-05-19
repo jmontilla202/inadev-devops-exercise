@@ -44,12 +44,12 @@ Proccess can take around 15 minutes to complete.
 
 ### Screenshots
 
-![image info](https://github.com/jmontilla202/inadev-devops-exercise/scrrenshots/00-terraform_apply.png)
-![image info](https://github.com/jmontilla202/inadev-devops-exercise/scrrenshots/01-terraform_apply.png)
-![image info](https://github.com/jmontilla202/inadev-devops-exercise/scrrenshots/02-terraform_apply.png)
-![image info](https://github.com/jmontilla202/inadev-devops-exercise/scrrenshots/03-terraform_apply.png)
-![image info](https://github.com/jmontilla202/inadev-devops-exercise/scrrenshots/04-terraform_apply.png)
-![image info](https://github.com/jmontilla202/inadev-devops-exercise/scrrenshots/05-terraform_apply.png)
-![image info](https://github.com/jmontilla202/inadev-devops-exercise/scrrenshots/06-terraform_apply.png)
-![image info](https://github.com/jmontilla202/inadev-devops-exercise/scrrenshots/07-terraform_apply.png)
+![image info](https://github.com/jmontilla202/inadev-devops-exercise/blob/main/screenshots00-terraform_apply.png)
+![image info](https://github.com/jmontilla202/inadev-devops-exercise/blob/main/screenshots01-terraform_apply.png)
+![image info](https://github.com/jmontilla202/inadev-devops-exercise/blob/main/screenshots02-terraform_apply.png)
+![image info](https://github.com/jmontilla202/inadev-devops-exercise/blob/main/screenshots03-terraform_apply.png)
+![image info](https://github.com/jmontilla202/inadev-devops-exercise/blob/main/screenshots04-terraform_apply.png)
+![image info](https://github.com/jmontilla202/inadev-devops-exercise/blob/main/screenshots05-terraform_apply.png)
+![image info](https://github.com/jmontilla202/inadev-devops-exercise/blob/main/screenshots06-terraform_apply.png)
+![image info](https://github.com/jmontilla202/inadev-devops-exercise/blob/main/screenshots07-terraform_apply.png)
 
