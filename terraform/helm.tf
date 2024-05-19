@@ -41,16 +41,3 @@ resource "helm_release" "wapi" {
 
   depends_on = [null_resource.namespaces]
 }
-
-# resource "null_resource" "run_post_provision_tasks" {
-#   provisioner "local-exec" {
-#     command = "ansible-playbook post_provision.yaml"
-#     environment = {
-#       ENV_KEY_1           = ENV_VAL_1
-#       ENV_KEY_2          = ENV_VAL_2
-#     }
-#   }
-# depends_on = [
-#     azuread_application.app1
-#   ]
-# }
