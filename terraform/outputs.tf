@@ -1,15 +1,19 @@
-output "oidc_provider" {
-  value = module.eks.oidc_provider
-}
-
 output "vpc_id" {
   value = module.vpc.vpc_id
 }
 
-output "private_subnet_id1" {
-  value = module.vpc.private_subnets[0]
+output "eks_cluster_id" {
+  value = module.eks.cluster_id
 }
 
-output "private_subnet_id2" {
-  value = module.vpc.private_subnets[1]
+output "eks_cluster_name" {
+  value = module.eks.cluster_name
+}
+
+output "jenkins_status" {
+  value = helm_release.jenkins.status
+}
+
+output "wapi_status" {
+  value = helm_release.wapi.status
 }
