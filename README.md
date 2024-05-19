@@ -44,5 +44,5 @@ Proccess can take around 15 minutes to complete.
 
 ### Screenshots
 
-![image info](./screenshots/00-terraform_apply.png)
+![image info](https://github.com/jmontilla202/inadev-devops-exercise/blob/dev/scrrenshots/00-terraform_apply.png)
 
