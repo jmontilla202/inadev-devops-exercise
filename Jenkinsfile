@@ -26,7 +26,6 @@
                         runAsGroup: 0
                         readOnlyRootFilesystem: false
                         privileged: true
-                       containers:     
                     - name: kubectl
                       image: jose9123/inadev-util:02
                       command:
@@ -42,6 +41,7 @@
             DOCKERHUB_CREDS = credentials('dockerhub')
             USERNAME = "${env.DOCKERHUB_CREDS_USR}"
             PASSWORD = "${env.DOCKERHUB_CREDS_PSW}"
+            BUILDTAG = ""
           }
           stages {
             stage('Checkout') {
@@ -63,22 +63,21 @@
                   dockerd --iptables=false --tls=false --bridge=none -H tcp://0.0.0.0:2375 -H unix:///var/run/docker.sock --data-root /var/lib/docker &
                   sleep 3
                   docker login -u $USERNAME -p $PASSWORD
-                  docker build -t jose9123/wapi:latest .
-                  docker push jose9123/wapi:latest
-                  docker images
+                  docker build -t jose9123/wapi:$BUILD_ID .
+                  docker push jose9123/wapi:$BUILD_ID
                   '''
                 }
               }
             }
             stage('Deploy') {
               steps {
-              container('kubectl') {
-                  sh '''
-                    kubectl get -n wapi pods
-                  '''
+                container('kubectl') {
+                    sh '''
+                      kubectl set image deployment -n wapi wapi-deploy wapi=jose9123/wapi:$BUILD_ID
+                    '''
+                  }
                 }
-            }
               }
             }
-          }
+          
         }
