@@ -53,3 +53,6 @@ Proccess can take around 15 minutes to complete.
 ![image info](https://github.com/jmontilla202/inadev-devops-exercise/blob/main/screenshots/06-curl.png)
 ![image info](https://github.com/jmontilla202/inadev-devops-exercise/blob/main/screenshots/07-terraform_destroy.png)
 
+## Terraform modules used
+- https://registry.terraform.io/modules/terraform-aws-modules/vpc/aws/latest
+- https://registry.terraform.io/modules/terraform-aws-modules/eks/aws/latest
