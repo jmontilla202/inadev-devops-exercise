@@ -1,12 +1,12 @@
 
 data "external" "get_hostname_jenkins" {
   program = ["bash", "get_hostname_jenkins.sh"]
-  depends_on = [null_resource.kubectl_config]
+  depends_on = [helm_release.jenkins]
 }
 
 data "external" "get_hostname_wapi" {
   program = ["bash", "get_hostname_wapi.sh"]
-  depends_on = [null_resource.kubectl_config]
+  depends_on = [helm_release.wapi]
 }
 
 locals {
