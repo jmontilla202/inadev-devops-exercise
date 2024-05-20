@@ -1,17 +1,17 @@
 
 data "external" "get_hostname_jenkins" {
   program = ["bash", "get_hostname_jenkins.sh"]
-  depends_on = [module.eks.aws_eks_cluster]
+  depends_on = [null_resource.kubectl_config]
 }
 
 data "external" "get_hostname_wapi" {
   program = ["bash", "get_hostname_wapi.sh"]
-  depends_on = [module.eks.aws_eks_cluster]
+  depends_on = [null_resource.kubectl_config]
 }
 
 locals {
-  jenkins_lb      = "${data.external.get_hostname_jenkins}"
-  wapi_lb = "${data.external.get_hostname_wapi}"
+    jenkins_lb    = "http://${data.external.get_hostname_jenkins.result.hostname}:8080 - (ops:cicdops123)"
+  wapi_lb       = "http://${data.external.get_hostname_wapi.result.hostname}"
 }
 resource "null_resource" "kubectl_config" {
   provisioner "local-exec" {
