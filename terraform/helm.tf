@@ -11,7 +11,7 @@ data "external" "get_hostname_wapi" {
 
 locals {
     jenkins_lb    = "http://${data.external.get_hostname_jenkins.result.hostname}:8080 - (ops:cicdops123)"
-  wapi_lb       = "http://${data.external.get_hostname_wapi.result.hostname}"
+  wapi_lb       = "http://${data.external.get_hostname_wapi.result.hostname}/forecast"
 }
 resource "null_resource" "kubectl_config" {
   provisioner "local-exec" {
