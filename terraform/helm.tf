@@ -1,10 +1,12 @@
 
 data "external" "get_hostname_jenkins" {
   program = ["bash", "get_hostname_jenkins.sh"]
+  depends_on = [module.eks.aws_eks_cluster]
 }
 
 data "external" "get_hostname_wapi" {
   program = ["bash", "get_hostname_wapi.sh"]
+  depends_on = [module.eks.aws_eks_cluster]
 }
 
 locals {
