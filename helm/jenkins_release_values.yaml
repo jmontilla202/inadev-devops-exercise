@@ -22,7 +22,7 @@ controller:
   hostNetworking: false
   admin:
     username: "ops"
-    password: "cicdops123"
+    password: ""
     userKey: jenkins-admin-user
     passwordKey: jenkins-admin-password
     createSecret: true
@@ -173,9 +173,9 @@ controller:
               - usernamePassword:
                   description: "Docker Hub"
                   id: "dockerhub"
-                  password: "dckr_pat_2Xf8ZYVj1B3GjmobeP41217i1FQ"
+                  password: ""
                   scope: GLOBAL
-                  username: "jose9123"
+                  username: ""
         unclassified:
           thinBackup:
               backupAdditionalFiles: false
